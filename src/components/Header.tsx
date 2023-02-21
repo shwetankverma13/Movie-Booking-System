@@ -8,6 +8,7 @@ import {
   Touchable,
   TouchableOpacity,
   TextInput,
+  ImageBackground,
 } from 'react-native';
 import {Image} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
@@ -46,6 +47,7 @@ const MP_head: FC = () => {
             style={styles.container}
             source={require('../images/location.jpeg')}
           /> */}
+
           <SelectList
             data={data}
             setSelected={setSelected}

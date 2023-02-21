@@ -1,3 +1,4 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {
   StyleSheet,
@@ -8,11 +9,14 @@ import {
   Image,
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
+import {createStackNavigator} from '@react-navigation/stack';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = React.useState('');
+  const Stack = createStackNavigator();
 
-  const onChangeSearch = query => setSearchQuery(query);
+  const onChangeSearch = (query: React.SetStateAction<string>) =>
+    setSearchQuery(query);
   return (
     <View>
       <View style={styles.header}>
@@ -29,10 +33,6 @@ export default function Search() {
 
         <View style={styles.tmt}>
           <TouchableOpacity>
-            {/* <Image
-                style={styles.container}
-                source={require('../images/location.jpeg')}
-              /> */}
             <Text style={styles.txt}> Movie </Text>
           </TouchableOpacity>
           <TouchableOpacity>

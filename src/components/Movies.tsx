@@ -6,73 +6,13 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
-import {Image} from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 import MP_head from './Header';
-
+import {movData} from './ListMovies';
+import {theatre} from './threatresList';
+import {langs} from './ListLanguage';
 export default function Movies() {
-  const [fruit, setFruit] = useState([
-    {name: 'Movie1', id: '1'},
-    {name: 'Movie2', id: '2'},
-    {name: 'Movie3', id: '3'},
-    {name: 'Movie4', id: '4'},
-    {name: 'Movie5', id: '5'},
-    {name: 'Movie6', id: '6'},
-    {name: 'Movie7', id: '7'},
-    {name: 'Movie8', id: '8'},
-    {name: 'Movie9', id: '9'},
-    {name: 'Movie10', id: '10'},
-  ]);
-
-  const [lang, setLang] = useState([
-    {name: 'All', id: '1'},
-    {name: 'English', id: '2'},
-    {name: 'Hindi', id: '3'},
-    {name: 'Tamil', id: '4'},
-    {name: 'Telugu', id: '5'},
-    {name: 'Marathi', id: '6'},
-    {name: 'Bhojpuri', id: '7'},
-    {name: 'Kannad', id: '8'},
-  ]);
-  type ItemData = {
-    id: string;
-    title: string;
-    image: String;
-    language: String;
-  };
-
-  const data: ItemData[] = [
-    {
-      id: '1',
-      title: 'Matrix',
-      image: require('../images/matrix.png'),
-      language: 'English',
-    },
-    {
-      id: '2',
-      title: '83',
-      image: require('../images/kd83.png'),
-      language: 'Hindi',
-    },
-    {
-      id: '3',
-      title: 'Sammayanaydu',
-      image: require('../images/saamanyudu.png'),
-      language: 'Telugu',
-    },
-    {
-      id: '4',
-      title: 'Pushpa',
-      image: require('../images/Pushpa.png'),
-      language: 'Telugu',
-    },
-    {
-      id: '5',
-      title: 'Movie1',
-      image: require('../images/no_img.png'),
-      language: 'English',
-    },
-  ];
   const pressHandler = (name: string) => {
     console.log(name);
   };
@@ -81,8 +21,9 @@ export default function Movies() {
       <MP_head />
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
-        data={lang}
+        data={langs}
         renderItem={({item}) => (
           <View style={styles.box}>
             <TouchableOpacity onPress={() => pressHandler(item.name)}>
@@ -92,31 +33,61 @@ export default function Movies() {
         )}
       />
       <Text style={styles.tm}>Movies</Text>
+
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal
-        // keyExtractor={item => item.id}
-        data={fruit}
+        data={movData}
         renderItem={({item}) => (
-          <View>
-            <TouchableOpacity onPress={() => pressHandler(item.name)}>
-              <Text style={styles.mb}>{item.name}</Text>
-            </TouchableOpacity>
+          <View style={styles.container}>
+            <View style={styles.boxx}>
+              <TouchableOpacity onPress={() => pressHandler(item.title)}>
+                <Image source={item.image} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.txtBt1}>{item.title}</Text>
+            <Text style={styles.txtBt2}>{item.language}</Text>
           </View>
         )}
       />
+
       <Text style={styles.tm}>Theatres</Text>
-      <FlatList
+      <ScrollView horizontal={true}>
+        <FlatList
+          numColumns={Math.ceil(theatre.length / 2)}
+          // horizontal
+          data={theatre}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => (
+            <View style={styles.container}>
+              <View style={styles.boxx}>
+                <TouchableOpacity onPress={() => pressHandler(item.title)}>
+                  <Image source={item.image} />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.txtBt1}>{item.title}</Text>
+              <Text style={styles.txtBt2}>{item.location}</Text>
+            </View>
+          )}
+        />
+      </ScrollView>
+      {/* <FlatList
+        //numColumns={Math.ceil(theatre.length / 2)}
         horizontal
-        keyExtractor={item => item.id}
-        data={fruit}
+        data={theatre}
+        showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (
-          <View>
-            <TouchableOpacity onPress={() => pressHandler(item.name)}>
-              <Text style={styles.mb}>{item.name}</Text>
-            </TouchableOpacity>
+          <View style={styles.container}>
+            <View style={styles.boxx}>
+              <TouchableOpacity onPress={() => pressHandler(item.title)}>
+                <Image source={item.image} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.txtBt1}>{item.title}</Text>
+            <Text style={styles.txtBt2}>{item.location}</Text>
           </View>
         )}
-      />
+      /> */}
     </View>
   );
 }
@@ -160,6 +131,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 16,
     marginLeft: 16,
+    marginBottom: 16,
   },
   mb: {
     width: 100,
@@ -170,5 +142,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  txtBt1: {
+    paddingTop: 5,
+    fontSize: 14,
+    marginLeft: 8,
+  },
+  boxx: {
+    marginRight: 8,
+    marginLeft: 8,
+  },
+  txtBt2: {
+    fontSize: 12,
+    marginLeft: 8,
   },
 });
