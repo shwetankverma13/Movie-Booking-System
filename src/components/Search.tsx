@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import {Dropdown} from 'react-native-element-dropdown';
 export default function Search() {
   const [searchQuery, setSearchQuery] = React.useState('');
   const Stack = createStackNavigator();

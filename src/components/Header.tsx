@@ -15,10 +15,13 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Dropdown} from 'react-native-element-dropdown';
+import Entypo from 'react-native-vector-icons/Entypo';
+
 const MP_head: FC = () => {
   //View to set in Header
   const [selected, setSelected] = React.useState('');
 
+  const [dropdown, setDropdown] = useState(null);
   const data = [
     {key: '1', value: 'Bangalore'},
     {key: '2', value: 'Hyderabad'},
@@ -41,26 +44,58 @@ const MP_head: FC = () => {
         </TouchableOpacity>
       </View>
 
-      <View>
-        <TouchableOpacity>
-          {/* <Image
+      <View style={styles.temp}>
+        {/* <Image
             style={styles.container}
             source={require('../images/location.jpeg')}
           /> */}
+        <View>
+          <Entypo name="location-pin" style={styles.pina} />
+        </View>
 
-          <SelectList
+        {/* <SelectList
             data={data}
             setSelected={setSelected}
             inputStyles={{fontSize: 10}}
             boxStyles={{marginLeft: 40, width: 110}}
+          /> */}
+        <View>
+          <SelectList
+            data={data}
+            setSelected={setSelected}
+            inputStyles={{fontSize: 10}}
+            boxStyles={{marginLeft: 0, width: 110}}
           />
-        </TouchableOpacity>
+          {/* <SelectDropdown
+            data={data}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          /> */}
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  temp: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  pina: {
+    marginLeft: 10,
+    width: 40,
+    height: 40,
+    fontSize: 20,
+    flex: 1,
+  },
   header: {
     height: 100,
     width: '100%',
@@ -121,6 +156,22 @@ const styles = StyleSheet.create({
     width: 25,
     marginLeft: 10,
     marginRight: 10,
+  },
+  dropdown: {
+    backgroundColor: 'white',
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    marginTop: 20,
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
 });
 export default MP_head;

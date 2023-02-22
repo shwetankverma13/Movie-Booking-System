@@ -12,6 +12,8 @@ import MP_head from './Header';
 import {movData} from './ListMovies';
 import {theatre} from './threatresList';
 import {langs} from './ListLanguage';
+import {DataTable} from 'react-native-paper';
+import {Dropdown} from 'react-native-element-dropdown';
 export default function Movies() {
   const pressHandler = (name: string) => {
     console.log(name);
