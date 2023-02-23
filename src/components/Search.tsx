@@ -11,6 +11,7 @@ import {
 import {Searchbar} from 'react-native-paper';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Dropdown} from 'react-native-element-dropdown';
+import lsMovies from './SearchMovie';
 export default function Search() {
   const [searchQuery, setSearchQuery] = React.useState('');
   const Stack = createStackNavigator();

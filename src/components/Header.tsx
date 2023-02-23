@@ -36,6 +36,20 @@ const MP_head: FC = () => {
     {key: '11', value: 'Jaipur'},
     {key: '12', value: 'Surat'},
   ];
+  const cities = [
+    'Bangalore',
+    'Hyderabad',
+    'Chennai',
+    'Mumbai',
+    'Kolkata',
+    'Delhi',
+    'Pune',
+    'Lucknow',
+    'Patna',
+    'Ranchi',
+    'Jaipur',
+    'Surat',
+  ];
   return (
     <View style={styles.header}>
       <View>
@@ -52,22 +66,26 @@ const MP_head: FC = () => {
         <View>
           <Entypo name="location-pin" style={styles.pina} />
         </View>
-
-        {/* <SelectList
-            data={data}
-            setSelected={setSelected}
-            inputStyles={{fontSize: 10}}
-            boxStyles={{marginLeft: 40, width: 110}}
-          /> */}
         <View>
-          <SelectList
+          {/* <SelectList
             data={data}
             setSelected={setSelected}
             inputStyles={{fontSize: 10}}
             boxStyles={{marginLeft: 0, width: 110}}
-          />
-          {/* <SelectDropdown
-            data={data}
+          /> */}
+          <SelectDropdown
+            data={cities}
+            buttonStyle={styles.btnStyle}
+            buttonTextStyle={styles.btnfont}
+            renderDropdownIcon={isOpened => {
+              return (
+                <FontAwesome
+                  name={isOpened ? 'chevron-up' : 'chevron-down'}
+                  color={'#444'}
+                  size={10}
+                />
+              );
+            }}
             onSelect={(selectedItem, index) => {
               console.log(selectedItem, index);
             }}
@@ -77,7 +95,7 @@ const MP_head: FC = () => {
             rowTextForSelection={(item, index) => {
               return item;
             }}
-          /> */}
+          />
         </View>
       </View>
     </View>
@@ -91,10 +109,11 @@ const styles = StyleSheet.create({
   },
   pina: {
     marginLeft: 10,
-    width: 40,
+    width: 15,
     height: 40,
     fontSize: 20,
     flex: 1,
+    marginTop: 2,
   },
   header: {
     height: 100,
@@ -172,6 +191,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
+  },
+  boxxxx: {
+    width: 30,
+    height: 30,
+    marginLeft: 0,
+    backgroundColor: 'white',
+  },
+  btnStyle: {
+    height: 25,
+    width: 123,
+    backgroundColor: 'white',
+  },
+  btnfont: {
+    color: '#3C444D',
   },
 });
 export default MP_head;

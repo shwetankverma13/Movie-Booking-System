@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC, useState} from 'react';
 import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native';
 import {movData} from './ListMovies';
 const pressHandler = (name: string) => {

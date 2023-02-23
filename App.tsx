@@ -26,42 +26,52 @@ import Account from './src/components/Account';
 import Bookings from './src/components/Bookings';
 import Search from './src/components/Search';
 import Movies from './src/components/Movies';
-<>
-  <Movies />
-  <Search />
-  <Bookings />
-  <Account />
-</>;
+import {createStackNavigator} from '@react-navigation/stack';
+import ShowMPage from './src/components/MoviesPage';
+<></>;
 
 const Tab = createBottomTabNavigator();
-
+const Stack = createStackNavigator();
+function Home() {
+  return (
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let icon_name;
+          if (route.name === 'Movies') {
+            icon_name = 'film';
+          } else if (route.name === 'Search') {
+            icon_name = 'search';
+          } else if (route.name === 'My Bookings') {
+            icon_name = 'bars';
+          } else {
+            icon_name = 'user';
+          }
+          return <FontAwesome name={icon_name} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+      })}>
+      <Tab.Screen name="Movies" component={Movies} />
+      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="My Bookings" component={Bookings} />
+      <Tab.Screen name="Account" component={Account} />
+    </Tab.Navigator>
+  );
+}
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            let icon_name;
-            if (route.name === 'Movies') {
-              icon_name = 'film';
-            } else if (route.name === 'Search') {
-              icon_name = 'search';
-            } else if (route.name === 'My Bookings') {
-              icon_name = 'bars';
-            } else {
-              icon_name = 'user';
-            }
-            return <FontAwesome name={icon_name} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-          headerShown: false,
-        })}>
-        <Tab.Screen name="Movies" component={Movies} />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="My Bookings" component={Bookings} />
-        <Tab.Screen name="Account" component={Account} />
-      </Tab.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen name="ShowMPage" component={ShowMPage} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

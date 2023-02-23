@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -14,10 +14,11 @@ import {theatre} from './threatresList';
 import {langs} from './ListLanguage';
 import {DataTable} from 'react-native-paper';
 import {Dropdown} from 'react-native-element-dropdown';
-export default function Movies() {
-  const pressHandler = (name: string) => {
-    console.log(name);
-  };
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
+export default function Movies({navigation}) {
+  const pressHandler = (name: string) => {};
   return (
     <View style={styles.container}>
       <MP_head />
@@ -43,7 +44,8 @@ export default function Movies() {
         renderItem={({item}) => (
           <View style={styles.container}>
             <View style={styles.boxx}>
-              <TouchableOpacity onPress={() => pressHandler(item.title)}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ShowMPage', {item})}>
                 <Image source={item.image} />
               </TouchableOpacity>
             </View>
@@ -73,23 +75,6 @@ export default function Movies() {
           )}
         />
       </ScrollView>
-      {/* <FlatList
-        //numColumns={Math.ceil(theatre.length / 2)}
-        horizontal
-        data={theatre}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => (
-          <View style={styles.container}>
-            <View style={styles.boxx}>
-              <TouchableOpacity onPress={() => pressHandler(item.title)}>
-                <Image source={item.image} />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.txtBt1}>{item.title}</Text>
-            <Text style={styles.txtBt2}>{item.location}</Text>
-          </View>
-        )}
-      /> */}
     </View>
   );
 }
