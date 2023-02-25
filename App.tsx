@@ -28,6 +28,7 @@ import Search from './src/components/Search';
 import Movies from './src/components/Movies';
 import {createStackNavigator} from '@react-navigation/stack';
 import ShowMPage from './src/components/MoviesPage';
+import Seats from './src/components/Seats';
 <></>;
 
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,7 @@ export default function App() {
         />
 
         <Stack.Screen name="ShowMPage" component={ShowMPage} />
+        <Stack.Screen name="Seats" component={Seats} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -16,6 +16,7 @@ import {DataTable} from 'react-native-paper';
 import {Dropdown} from 'react-native-element-dropdown';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Seats from './Seats';
 const Stack = createNativeStackNavigator();
 export default function Movies({navigation}) {
   const pressHandler = (name: string) => {};
@@ -141,6 +142,6 @@ const styles = StyleSheet.create({
   },
   txtBt2: {
     fontSize: 12,
-    marginLeft: 8,
+    marginLeft: 9,
   },
 });
