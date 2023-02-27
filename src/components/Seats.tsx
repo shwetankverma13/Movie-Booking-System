@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,13 +8,27 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-export default function Seats() {
+import Modal from 'react-native-modal';
+export default function Seats(props: any) {
+  const locate = props.route.params.loc;
+  const [visible, setVisible] = useState(false);
   return (
-    <View style={{flex: 1}}>
-      <Text style={{width: '100%', height: 125}}></Text>
-      <View>
-        <Text>webfrbgu9r</Text>
-      </View>
+    <View>
+      <Modal
+        style={{width: '100%', marginBottom: 0, marginLeft: 0}}
+        onBackButtonPress={() => {
+          setVisible(false);
+        }}
+        isVisible={true}>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: 600,
+            backgroundColor: 'white',
+            width: '100%',
+          }}></View>
+      </Modal>
     </View>
   );
 }

@@ -12,9 +12,9 @@ import {movData} from './ListMovies';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextInput} from 'react-native-gesture-handler';
 import Seats from './Seats';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
-export default function ShowMPage(props) {
+//import {createNativeStackNavigator} from '@react-navigation/native-stack';
+//const Stack = createNativeStackNavigator();
+export default function ShowMPage(props: any) {
   const loc = props.route.params.item;
   return (
     <View style={{flex: 1}}>

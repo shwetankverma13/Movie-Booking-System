@@ -29,6 +29,7 @@ import Movies from './src/components/Movies';
 import {createStackNavigator} from '@react-navigation/stack';
 import ShowMPage from './src/components/MoviesPage';
 import Seats from './src/components/Seats';
+import ShowLandingPage from './src/components/MovieLandingPage';
 <></>;
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +51,7 @@ function Home() {
           }
           return <FontAwesome name={icon_name} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: 'purple',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}>
@@ -71,7 +72,7 @@ export default function App() {
           options={{headerShown: false}}
         />
 
-        <Stack.Screen name="ShowMPage" component={ShowMPage} />
+        <Stack.Screen name="ShowLandingPage" component={ShowLandingPage} />
         <Stack.Screen name="Seats" component={Seats} />
       </Stack.Navigator>
     </NavigationContainer>

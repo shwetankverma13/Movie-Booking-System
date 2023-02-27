@@ -17,8 +17,9 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Seats from './Seats';
+import ShowLandingPage from './MovieLandingPage';
 const Stack = createNativeStackNavigator();
-export default function Movies({navigation}) {
+export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
   return (
     <View style={styles.container}>
@@ -46,7 +47,9 @@ export default function Movies({navigation}) {
           <View style={styles.container}>
             <View style={styles.boxx}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('ShowMPage', {item})}>
+                onPress={() =>
+                  props.navigation.navigate('ShowLandingPage', {item})
+                }>
                 <Image source={item.image} />
               </TouchableOpacity>
             </View>
