@@ -18,9 +18,20 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Seats from './Seats';
 import ShowLandingPage from './MovieLandingPage';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
+  var [isPress, setIsPress] = React.useState(false);
+
+  var touchProps = {
+    activeOpacity: 1,
+    underlayColor: 'purple',
+    style: isPress ? styles.btnPress : styles.box,
+    onHideUnderlay: () => setIsPress(false),
+    onShowUnderlay: () => setIsPress(true),
+    onPress: () => {},
+  };
   return (
     <View style={styles.container}>
       <MP_head />
@@ -30,9 +41,11 @@ export default function Movies(props: any) {
         keyExtractor={item => item.id}
         data={langs}
         renderItem={({item}) => (
-          <View style={styles.box}>
+          <View>
             <TouchableOpacity onPress={() => pressHandler(item.name)}>
-              <Text style={styles.item}>{item.name}</Text>
+              <TouchableHighlight {...touchProps}>
+                <Text style={styles.item}>{item.name}</Text>
+              </TouchableHighlight>
             </TouchableOpacity>
           </View>
         )}
@@ -146,5 +159,24 @@ const styles = StyleSheet.create({
   txtBt2: {
     fontSize: 12,
     marginLeft: 9,
+  },
+  btnNormal: {
+    borderColor: 'blue',
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 30,
+    width: 100,
+  },
+  btnPress: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    marginLeft: 16,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: 'purple',
+    borderRadius: 16,
   },
 });

@@ -12,13 +12,62 @@ import {movData} from './ListMovies';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theatre} from './threatresList';
 import Modal from 'react-native-modal';
+import {Button} from 'react-native-paper';
+import Book_ticket from './Ticket_booked';
+import Bookings from './Bookings';
 export default function ShowLandingPage(props: any) {
+  //console.log(props);
   const loc = props.route.params.item;
   //console.log(loc);
+
   const [visible, setVisible] = useState(false);
+  const toggleModal = () => {
+    setVisible(!visible);
+  };
+  let nameTitle: string;
+  nameTitle = '';
+  let i: number;
+  let j: number;
+  const row = [];
+  for (i = 0; i < 11; i++) {
+    const col = [];
+    for (j = 0; j < 13; j++) {
+      if (j != 6) {
+        col.push(
+          <TouchableOpacity>
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                borderWidth: 1,
+                margin: 5,
+                backgroundColor: '#F7F9FA',
+                borderRadius: 4,
+                borderColor: '#D7DCE0',
+              }}
+            />
+          </TouchableOpacity>,
+        );
+      } else {
+        col.push(
+          <TouchableOpacity>
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                margin: 5,
+              }}
+            />
+          </TouchableOpacity>,
+        );
+      }
+    }
+    row.push(<View style={{flexDirection: 'row'}}>{col}</View>);
+  }
   return (
     <View style={{flex: 1}}>
       <Image source={loc.image} style={styles.image} />
+
       <Text style={styles.txtl}>{loc.title}</Text>
       <View style={{flexDirection: 'row'}}>
         <Text style={styles.txtlan}>{loc.language}</Text>
@@ -60,6 +109,7 @@ export default function ShowLandingPage(props: any) {
           showsHorizontalScrollIndicator={false}
           data={theatre}
           renderItem={({item}) => (
+            // arr.push({title:item.title});
             <View>
               <View>
                 <Text
@@ -86,7 +136,10 @@ export default function ShowLandingPage(props: any) {
                           marginLeft: 16,
                           marginTop: 8,
                         }}>
-                        <TouchableOpacity onPress={() => setVisible(true)}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setVisible(true);
+                          }}>
                           <Text
                             style={{
                               marginRight: 20,
@@ -104,29 +157,107 @@ export default function ShowLandingPage(props: any) {
                     </View>
                   )}
                 />
-                <Modal
-                  style={{width: '100%', marginBottom: 0, marginLeft: 0}}
-                  onBackButtonPress={() => {
-                    setVisible(false);
-                  }}
-                  isVisible={visible}>
-                  <View
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      height: 600,
-                      backgroundColor: 'white',
-                      width: '100%',
-                    }}>
-                    <Text style={{marginLeft: 16, marginTop: 24, fontSize: 16}}>
-                      {item.title}
-                    </Text>
-                  </View>
-                </Modal>
               </View>
             </View>
           )}
         />
+        <Modal
+          style={{width: '100%', marginBottom: 0, marginLeft: 0}}
+          onBackdropPress={() => setVisible(false)}
+          onBackButtonPress={() => setVisible(false)}
+          isVisible={visible}
+          swipeDirection="down"
+          onSwipeComplete={toggleModal}
+          animationIn="bounceInUp"
+          animationOut="bounceOutDown"
+          animationInTiming={900}
+          animationOutTiming={500}
+          backdropTransitionInTiming={1000}
+          backdropTransitionOutTiming={500}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              height: 623,
+              backgroundColor: 'white',
+              width: '100%',
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
+            }}>
+            <Text
+              style={{
+                width: 222,
+                height: 20,
+                marginLeft: 16,
+                marginTop: 24,
+                fontSize: 16,
+              }}>
+              yahan pe theatre name aayega
+            </Text>
+            <View
+              style={{
+                marginLeft: 16,
+                flexDirection: 'row',
+                marginTop: 4,
+              }}>
+              <Text style={{fontSize: 12, fontWeight: '400'}}>
+                {loc.title} • {loc.language} • {loc.duration}
+              </Text>
+              <TouchableOpacity style={{marginLeft: 4, marginTop: 3}}>
+                <FontAwesome name="chevron-down" color={'#444'} size={8} />
+              </TouchableOpacity>
+            </View>
+
+            <View>
+              <Text
+                style={{
+                  marginTop: 60,
+                  marginLeft: 140,
+                  color: '#D7DCE0',
+                }}>
+                SCREEN THIS WAY
+              </Text>
+            </View>
+            <View
+              style={{
+                width: 260,
+                height: 14,
+                borderWidth: 1,
+                margin: 5,
+                backgroundColor: '#F7F9FA',
+                marginLeft: 60,
+                borderColor: '#D7DCE0',
+              }}></View>
+            <View style={{marginLeft: 5, marginTop: 40}}>{row}</View>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Bookings');
+                setVisible(!visible);
+              }}
+              style={{
+                marginBottom: 0,
+                marginTop: 20,
+                marginLeft: '10%',
+                borderRadius: 8,
+                backgroundColor: 'purple',
+                width: '80%',
+                height: 38,
+                alignItems: 'center',
+                alignContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: 'white',
+                  marginTop: 8,
+                  textTransform: 'capitalize',
+                  fontWeight: '600',
+                }}>
+                Book Tickets
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
       <View></View>
     </View>

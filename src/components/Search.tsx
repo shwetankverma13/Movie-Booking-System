@@ -51,7 +51,10 @@ export default function Search() {
 
 const styles = StyleSheet.create({
   body: {
+    backgroundColor: 'white',
     alignItems: 'center',
+    marginBottom: 0,
+    height: '85%',
   },
   text: {
     fontSize: 40,

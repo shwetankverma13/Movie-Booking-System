@@ -30,51 +30,83 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ShowMPage from './src/components/MoviesPage';
 import Seats from './src/components/Seats';
 import ShowLandingPage from './src/components/MovieLandingPage';
+import book_ticket from './src/components/Ticket_booked';
+import Book_ticket from './src/components/Ticket_booked';
 <></>;
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-function Home() {
+// function Home() {
+//   return (
+//     <Tab.Navigator
+//       screenOptions={({route}) => ({
+//         tabBarIcon: ({focused, color, size}) => {
+//           let icon_name;
+//           if (route.name === 'Movies') {
+//             icon_name = 'film';
+//           } else if (route.name === 'Search') {
+//             icon_name = 'search';
+//           } else if (route.name === 'My Bookings') {
+//             icon_name = 'bars';
+//           } else {
+//             icon_name = 'user';
+//           }
+//           return <FontAwesome name={icon_name} size={size} color={color} />;
+//         },
+//         tabBarActiveTintColor: 'purple',
+//         tabBarInactiveTintColor: 'gray',
+//         headerShown: false,
+//       })}>
+//       <Tab.Screen name="Movies" component={Movies} />
+//       <Tab.Screen name="Search" component={Search} />
+//       <Tab.Screen name="My Bookings" component={Bookings} />
+//       <Tab.Screen name="Account" component={Account} />
+//     </Tab.Navigator>
+//   );
+// }
+function TabNavigate() {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let icon_name;
-          if (route.name === 'Movies') {
-            icon_name = 'film';
-          } else if (route.name === 'Search') {
-            icon_name = 'search';
-          } else if (route.name === 'My Bookings') {
-            icon_name = 'bars';
-          } else {
-            icon_name = 'user';
-          }
-          return <FontAwesome name={icon_name} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'purple',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-      })}>
-      <Tab.Screen name="Movies" component={Movies} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="My Bookings" component={Bookings} />
-      <Tab.Screen name="Account" component={Account} />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Movies}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen name="ShowLandingPage" component={ShowLandingPage} />
+      <Stack.Screen name="Book_ticket" component={Book_ticket} />
+      <Stack.Screen name="Seats" component={Seats} />
+      <Stack.Screen name="Bookings" component={Bookings} />
+    </Stack.Navigator>
   );
 }
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen name="ShowLandingPage" component={ShowLandingPage} />
-        <Stack.Screen name="Seats" component={Seats} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let icon_name;
+            if (route.name === 'Movies') {
+              icon_name = 'film';
+            } else if (route.name === 'Search') {
+              icon_name = 'search';
+            } else if (route.name === 'My Bookings') {
+              icon_name = 'bars';
+            } else {
+              icon_name = 'user';
+            }
+            return <FontAwesome name={icon_name} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'purple',
+          tabBarInactiveTintColor: 'gray',
+          headerShown: false,
+        })}>
+        <Tab.Screen name="Movies" component={TabNavigate} />
+        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="My Bookings" component={Bookings} />
+        <Tab.Screen name="Account" component={Account} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

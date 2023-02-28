@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text,View } from "react-native";
 import { Image } from "react-native";
-export default function book_ticket(){
+export default function Book_ticket(){
     return(
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             {/* <Text>
