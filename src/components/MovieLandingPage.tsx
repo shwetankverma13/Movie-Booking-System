@@ -12,17 +12,25 @@ import {movData} from './ListMovies';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theatre} from './threatresList';
 import Modal from 'react-native-modal';
-import {Button} from 'react-native-paper';
-import Book_ticket from './Ticket_booked';
-import Bookings from './Bookings';
+import {useDispatch, useSelector} from 'react-redux';
+import setVarId from '../redux/action';
+import setVarTimeId from '../redux/action';
 export default function ShowLandingPage(props: any) {
   //console.log(props);
   const loc = props.route.params.item;
+  const movData = useSelector((store: any) => store.ChangeMovie);
+  const movTheatre = useSelector((store: any) => store.ChangeTheatre);
+  const varId = useSelector((store: any) => store.ChangeVaribleId.varId);
+  const varTimeId = useSelector(
+    (store: any) => store.ChangeVaribleTimeId.varTimeId,
+  );
+  //console.log(movTheatre);
   //console.log(loc);
-
-  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
+  const [visible, SetVisible] = useState(false);
+  //   dispatch(setVarId());
   const toggleModal = () => {
-    setVisible(!visible);
+    SetVisible(!visible);
   };
   let nameTitle: string;
   nameTitle = '';
@@ -64,6 +72,7 @@ export default function ShowLandingPage(props: any) {
     }
     row.push(<View style={{flexDirection: 'row'}}>{col}</View>);
   }
+
   return (
     <View style={{flex: 1}}>
       <Image source={loc.image} style={styles.image} />
@@ -107,7 +116,7 @@ export default function ShowLandingPage(props: any) {
       <View style={{flex: 1}}>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          data={theatre}
+          data={movTheatre}
           renderItem={({item}) => (
             // arr.push({title:item.title});
             <View>
@@ -120,7 +129,7 @@ export default function ShowLandingPage(props: any) {
                     fontSize: 14,
                     lineHeight: 18,
                   }}>
-                  {item.title}
+                  {item.title} , {item.location}
                 </Text>
               </View>
               <View>
@@ -128,7 +137,7 @@ export default function ShowLandingPage(props: any) {
                   showsHorizontalScrollIndicator={false}
                   horizontal
                   data={item.timings}
-                  renderItem={({item}) => (
+                  renderItem={({item, index}) => (
                     <View>
                       <View
                         style={{
@@ -138,7 +147,17 @@ export default function ShowLandingPage(props: any) {
                         }}>
                         <TouchableOpacity
                           onPress={() => {
-                            setVisible(true);
+                            SetVisible(true);
+                            // console.log(item.num);
+
+                            // dispatch(setVarId(3));
+                            //console.log(varTimeId);
+                            dispatch(setVarId.setVarId(item.num - 1));
+                            dispatch(setVarTimeId.setVarTimeId(index));
+                            //  console.log(index);
+                            // console.log(varTimeId);
+                            // console.log('helllo', index);
+                            //console.log('helo', varId);
                           }}>
                           <Text
                             style={{
@@ -150,7 +169,7 @@ export default function ShowLandingPage(props: any) {
                               borderLeftWidth: 10,
                               borderColor: 'green',
                             }}>
-                            {item}
+                            {item.time}
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -163,8 +182,8 @@ export default function ShowLandingPage(props: any) {
         />
         <Modal
           style={{width: '100%', marginBottom: 0, marginLeft: 0}}
-          onBackdropPress={() => setVisible(false)}
-          onBackButtonPress={() => setVisible(false)}
+          onBackdropPress={() => SetVisible(false)}
+          onBackButtonPress={() => SetVisible(false)}
           isVisible={visible}
           swipeDirection="down"
           onSwipeComplete={toggleModal}
@@ -186,13 +205,13 @@ export default function ShowLandingPage(props: any) {
             }}>
             <Text
               style={{
-                width: 222,
+                width: 600,
                 height: 20,
                 marginLeft: 16,
                 marginTop: 24,
                 fontSize: 16,
               }}>
-              yahan pe theatre name aayega
+              {movTheatre[varId].title} , {movTheatre[varId].location}
             </Text>
             <View
               style={{
@@ -201,7 +220,8 @@ export default function ShowLandingPage(props: any) {
                 marginTop: 4,
               }}>
               <Text style={{fontSize: 12, fontWeight: '400'}}>
-                {loc.title} • {loc.language} • {loc.duration}
+                {loc.title} • {loc.language} •{' '}
+                {movTheatre[varId].timings[varTimeId].time}
               </Text>
               <TouchableOpacity style={{marginLeft: 4, marginTop: 3}}>
                 <FontAwesome name="chevron-down" color={'#444'} size={8} />
@@ -232,7 +252,7 @@ export default function ShowLandingPage(props: any) {
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Bookings');
-                setVisible(!visible);
+                SetVisible(!visible);
               }}
               style={{
                 marginBottom: 0,

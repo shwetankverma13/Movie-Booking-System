@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import MP_head from './Header';
-import {movData} from './ListMovies';
+//import {movData} from './ListMovies';
 import {theatre} from './threatresList';
 import {langs} from './ListLanguage';
 import {DataTable} from 'react-native-paper';
@@ -19,10 +19,17 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Seats from './Seats';
 import ShowLandingPage from './MovieLandingPage';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import setVarId from '../redux/action';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
+  const movDatas = useSelector((store: any) => store.ChangeMovie);
+  const movTheatre = useSelector((store: any) => store.ChangeTheatre);
   var [isPress, setIsPress] = React.useState(false);
+
+  const dispatch = useDispatch();
+  //dispatch(setVarId.setVarId(5));
 
   var touchProps = {
     activeOpacity: 1,
@@ -55,7 +62,7 @@ export default function Movies(props: any) {
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={movData}
+        data={movDatas}
         renderItem={({item}) => (
           <View style={styles.container}>
             <View style={styles.boxx}>
@@ -77,7 +84,7 @@ export default function Movies(props: any) {
         <FlatList
           numColumns={Math.ceil(theatre.length / 2)}
           // horizontal
-          data={theatre}
+          data={movTheatre}
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => (
             <View style={styles.container}>

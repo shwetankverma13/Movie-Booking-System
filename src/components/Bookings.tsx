@@ -1,11 +1,51 @@
-import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, Image, Modal} from 'react-native';
+
+import {SafeAreaView} from 'react-native-safe-area-context';
 import book_ticket from './Ticket_booked';
 export default function Bookings() {
+  const [visible, setVisible] = useState(false);
+  const toggleModal = () => {
+    setVisible(!visible);
+  };
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={styles.textStyle}>Ticket Booked Successfully</Text>
-      <Image style={styles.img} source={require('../images/yay.png')} />
+      {/* <Image style={styles.img} source={require('../images/yay.png')} /> */}
+      {/* <View> */}
+      <Modal
+        style={{
+          width: '100%',
+          marginBottom: 0,
+          marginLeft: 0,
+        }}
+        visible={true}
+        // swipeDirection="down"
+        // onSwipeComplete={toggleModal}
+      >
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: 600,
+            backgroundColor: 'white',
+            width: '100%',
+            borderTopRightRadius: 30,
+            borderTopLeftRadius: 30,
+          }}>
+          <Text
+            style={{
+              width: 222,
+              height: 20,
+              marginLeft: 16,
+              marginTop: 24,
+              fontSize: 16,
+            }}>
+            hoja bhai
+          </Text>
+        </View>
+      </Modal>
+      {/* </View> */}
     </View>
   );
 }

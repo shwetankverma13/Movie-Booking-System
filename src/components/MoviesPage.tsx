@@ -8,28 +8,30 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {movData} from './ListMovies';
+//import {movData} from './ListMovies';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextInput} from 'react-native-gesture-handler';
 import Seats from './Seats';
+import {useSelector} from 'react-redux';
 //import {createNativeStackNavigator} from '@react-navigation/native-stack';
 //const Stack = createNativeStackNavigator();
 export default function ShowMPage(props: any) {
   const loc = props.route.params.item;
+  const movData = useSelector((store: any) => store.ChangeMovie);
   return (
     <View style={{flex: 1}}>
       <ScrollView>
-        <Image source={loc.image} style={styles.image} />
-        <Text style={styles.txtl}>{loc.title}</Text>
+        <Image source={movData.image} style={styles.image} />
+        <Text style={styles.txtl}>{movData.title}</Text>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.txtlan}>{loc.language}</Text>
+          <Text style={styles.txtlan}>{movData.language}</Text>
           <Text style={styles.textU}> U/A</Text>
-          <Text style={styles.txtlan}>{loc.year}</Text>
-          <Text style={styles.txtlan}>{loc.genre}</Text>
+          <Text style={styles.txtlan}>{movData.year}</Text>
+          <Text style={styles.txtlan}>{movData.genre}</Text>
 
-          <Text style={styles.txtlan}>{loc.duration}</Text>
+          <Text style={styles.txtlan}>{movData.duration}</Text>
         </View>
-        <Text style={styles.desc}>{loc.description}</Text>
+        <Text style={styles.desc}>{movData.description}</Text>
         <View style={styles.arrow}>
           <TouchableOpacity>
             <FontAwesome name="chevron-down" color={'#444'} size={12} />
@@ -68,23 +70,6 @@ export default function ShowMPage(props: any) {
             Urvasi Cinemas, Shivaji nagar
           </Text>
           <View style={{flexDirection: 'row', marginLeft: 16, marginTop: 8}}>
-            {/* <FlatList
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              data={movData}
-              renderItem={({item}) => (
-                <View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('Seats', {item})
-                      }>
-                      <Text>{props.route.params.item.timings}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-            /> */}
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Seats')}>
               <Text
