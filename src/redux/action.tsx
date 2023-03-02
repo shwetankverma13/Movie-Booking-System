@@ -22,4 +22,38 @@ const setVarTimeId = (newVisibleState: number) => {
     payload: newVisibleState,
   };
 };
-export default {SetVisible, SetMovies, SetTheatre, setVarId, setVarTimeId};
+const setLanguage = (newVisibleState: any) => {
+  return {
+    type: 'setLanguage',
+    payload: newVisibleState,
+  };
+};
+const setSeats = (newVisibleSeats: any) => {
+  return {
+    type: 'setSeats',
+    payload: newVisibleSeats,
+  };
+};
+const setCost = (newVisibleSeats: any) => {
+  return {
+    type: 'TotalCost',
+    payload: newVisibleSeats,
+  };
+};
+const setMovieId = (newVisibleSeats: any) => {
+  return {
+    type: 'SetMovieId',
+    payload: newVisibleSeats,
+  };
+};
+export {
+  SetVisible,
+  SetMovies,
+  SetTheatre,
+  setVarId,
+  setVarTimeId,
+  setLanguage,
+  setSeats,
+  setCost,
+  setMovieId,
+};

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,8 +13,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theatre} from './threatresList';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
-import setVarId from '../redux/action';
-import setVarTimeId from '../redux/action';
+import {setCost, setVarId} from '../redux/action';
+import {setVarTimeId} from '../redux/action';
+import {setSeats} from '../redux/action';
+import Book_ticket from './Ticket_booked';
 export default function ShowLandingPage(props: any) {
   //console.log(props);
   const loc = props.route.params.item;
@@ -24,14 +26,38 @@ export default function ShowLandingPage(props: any) {
   const varTimeId = useSelector(
     (store: any) => store.ChangeVaribleTimeId.varTimeId,
   );
-  //console.log(movTheatre);
-  //console.log(loc);
+  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
   const dispatch = useDispatch();
   const [visible, SetVisible] = useState(false);
-  //   dispatch(setVarId());
+
   const toggleModal = () => {
     SetVisible(!visible);
   };
+
+  const acc = useSelector((store: any) => store.ChangeSeatId);
+  let activeSeatId = acc.clickSeat;
+  const costID = useSelector((store: any) => store.ChangeTotalCost.costID);
+
+  const handleSeatChange = (row: number, col: number) => {
+    if (activeSeatId[row][col]) activeSeatId[row][col] = false;
+    else activeSeatId[row][col] = true;
+    dispatch(setSeats(activeSeatId));
+    console.log(activeSeatId[row][col], row, col);
+    let count: number = 0;
+
+    for (let i: number = 0; i < 11; i++) {
+      for (let j: number = 0; j < 13; j++) {
+        if (activeSeatId[i][j]) {
+          count += 1;
+        }
+      }
+    }
+    count = count * 300;
+    dispatch(setCost(count));
+    console.log(count);
+    console.log('detail', movieId);
+  };
+
   let nameTitle: string;
   nameTitle = '';
   let i: number;
@@ -40,19 +66,27 @@ export default function ShowLandingPage(props: any) {
   for (i = 0; i < 11; i++) {
     const col = [];
     for (j = 0; j < 13; j++) {
+      let rID: number = i;
+      let cID: number = j;
+
       if (j != 6) {
         col.push(
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSeatChange(rID, cID)}>
             <View
-              style={{
-                width: 20,
-                height: 20,
-                borderWidth: 1,
-                margin: 5,
-                backgroundColor: '#F7F9FA',
-                borderRadius: 4,
-                borderColor: '#D7DCE0',
-              }}
+              style={[
+                {
+                  width: 20,
+                  height: 20,
+                  borderWidth: 1,
+                  margin: 5,
+                  // backgroundColor: '#F7F9FA',
+                  borderRadius: 4,
+                  borderColor: '#D7DCE0',
+                },
+                activeSeatId[rID][cID]
+                  ? {backgroundColor: '#EBF7F1', borderColor: '#3BB273'}
+                  : {backgroundColor: '#F7F9FA', borderColor: '#D7DCE0'},
+              ]}
             />
           </TouchableOpacity>,
         );
@@ -148,16 +182,8 @@ export default function ShowLandingPage(props: any) {
                         <TouchableOpacity
                           onPress={() => {
                             SetVisible(true);
-                            // console.log(item.num);
-
-                            // dispatch(setVarId(3));
-                            //console.log(varTimeId);
-                            dispatch(setVarId.setVarId(item.num - 1));
-                            dispatch(setVarTimeId.setVarTimeId(index));
-                            //  console.log(index);
-                            // console.log(varTimeId);
-                            // console.log('helllo', index);
-                            //console.log('helo', varId);
+                            dispatch(setVarId(item.num - 1));
+                            dispatch(setVarTimeId(index));
                           }}>
                           <Text
                             style={{
@@ -273,7 +299,7 @@ export default function ShowLandingPage(props: any) {
                   textTransform: 'capitalize',
                   fontWeight: '600',
                 }}>
-                Book Tickets
+                BOOK ₹ {costID}
               </Text>
             </TouchableOpacity>
           </View>
@@ -316,7 +342,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: 0.21,
     marginTop: 10,
-    width: 35,
+    width: 38,
     height: 15,
     marginLeft: 4,
     backgroundColor: 'gray',

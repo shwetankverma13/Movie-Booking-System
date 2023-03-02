@@ -20,25 +20,21 @@ import Seats from './Seats';
 import ShowLandingPage from './MovieLandingPage';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import setVarId from '../redux/action';
+import {setMovieId, setVarId} from '../redux/action';
+import {setLanguage} from '../redux/action';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
   const movDatas = useSelector((store: any) => store.ChangeMovie);
   const movTheatre = useSelector((store: any) => store.ChangeTheatre);
   var [isPress, setIsPress] = React.useState(false);
-
+  const lang = useSelector((store: any) => store.changeLanguage);
   const dispatch = useDispatch();
   //dispatch(setVarId.setVarId(5));
-
-  var touchProps = {
-    activeOpacity: 1,
-    underlayColor: 'purple',
-    style: isPress ? styles.btnPress : styles.box,
-    onHideUnderlay: () => setIsPress(false),
-    onShowUnderlay: () => setIsPress(true),
-    onPress: () => {},
+  const langOnClick = (index: number) => {
+    dispatch(setLanguage(index));
   };
+  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
   return (
     <View style={styles.container}>
       <MP_head />
@@ -47,12 +43,10 @@ export default function Movies(props: any) {
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
         data={langs}
-        renderItem={({item}) => (
-          <View>
-            <TouchableOpacity onPress={() => pressHandler(item.name)}>
-              <TouchableHighlight {...touchProps}>
-                <Text style={styles.item}>{item.name}</Text>
-              </TouchableHighlight>
+        renderItem={({item, index}) => (
+          <View style={[styles.box, {backgroundColor: lang[index].color}]}>
+            <TouchableOpacity onPress={() => langOnClick(index)}>
+              <Text style={styles.item}>{item.name}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -63,13 +57,15 @@ export default function Movies(props: any) {
         showsHorizontalScrollIndicator={false}
         horizontal
         data={movDatas}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <View style={styles.container}>
             <View style={styles.boxx}>
               <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('ShowLandingPage', {item})
-                }>
+                onPress={() => {
+                  dispatch(setMovieId(index));
+                  console.log(movieId);
+                  props.navigation.navigate('ShowLandingPage', {item});
+                }}>
                 <Image source={item.image} />
               </TouchableOpacity>
             </View>
@@ -132,7 +128,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginTop: 16,
     borderWidth: 1,
-    borderColor: '#80868C',
+    borderColor: '#4A148C',
     borderRadius: 16,
   },
   tm: {

@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image, Modal} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 import {SafeAreaView} from 'react-native-safe-area-context';
 import book_ticket from './Ticket_booked';
-export default function Bookings() {
+export default function Bookings({navigation}) {
   const [visible, setVisible] = useState(false);
   const toggleModal = () => {
     setVisible(!visible);
@@ -11,9 +12,13 @@ export default function Bookings() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={styles.textStyle}>Ticket Booked Successfully</Text>
-      {/* <Image style={styles.img} source={require('../images/yay.png')} /> */}
+      <Image style={styles.img} source={require('../images/yay.png')} />
+      <TouchableOpacity onPress={() => navigation.navigate('Book_ticket')}>
+        <Text style={styles.textStyle}>Ticket Summary</Text>
+      </TouchableOpacity>
+
       {/* <View> */}
-      <Modal
+      {/* <Modal
         style={{
           width: '100%',
           marginBottom: 0,
@@ -44,7 +49,7 @@ export default function Bookings() {
             hoja bhai
           </Text>
         </View>
-      </Modal>
+      </Modal> */}
       {/* </View> */}
     </View>
   );
