@@ -13,7 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theatre} from './threatresList';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
-import {setCost, setVarId} from '../redux/action';
+import {setBookingStatus, setCost, setVarId} from '../redux/action';
 import {setVarTimeId} from '../redux/action';
 import {setSeats} from '../redux/action';
 import Book_ticket from './Ticket_booked';
@@ -34,10 +34,12 @@ export default function ShowLandingPage(props: any) {
     SetVisible(!visible);
   };
 
-  const acc = useSelector((store: any) => store.ChangeSeatId);
-  let activeSeatId = acc.clickSeat;
+  const arr = useSelector((store: any) => store.ChangeSeatId);
+  let activeSeatId = arr.clickSeat;
   const costID = useSelector((store: any) => store.ChangeTotalCost.costID);
-
+  const movieStatus = useSelector(
+    (store: any) => store.ChangeBookingStatus.isBookingSuccess,
+  );
   const handleSeatChange = (row: number, col: number) => {
     if (activeSeatId[row][col]) activeSeatId[row][col] = false;
     else activeSeatId[row][col] = true;
@@ -277,7 +279,9 @@ export default function ShowLandingPage(props: any) {
             <View style={{marginLeft: 5, marginTop: 40}}>{row}</View>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Bookings');
+                dispatch(setBookingStatus(true));
+                console.log(movieStatus);
+                props.navigation.navigate('Book_ticket');
                 SetVisible(!visible);
               }}
               style={{

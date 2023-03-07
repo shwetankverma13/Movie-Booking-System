@@ -46,6 +46,12 @@ const setMovieId = (newVisibleSeats: any) => {
     payload: newVisibleSeats,
   };
 };
+const setBookingStatus = (newBookingStatus: any) => {
+  return {
+    type: 'ChangeBookingStatus',
+    payload: newBookingStatus,
+  };
+};
 export {
   SetVisible,
   SetMovies,
@@ -56,4 +62,5 @@ export {
   setSeats,
   setCost,
   setMovieId,
+  setBookingStatus,
 };

@@ -14,6 +14,20 @@ const ChangeVisible = (state = InitialStateVisible, action: any) => {
   }
 };
 
+const InitialBookingStatus = {
+  isBookingSuccess: 'false',
+};
+const ChangeBookingStatus = (state = InitialBookingStatus, action: any) => {
+  switch (action.type) {
+    case 'ChangeBookingStatus':
+      return {
+        ...state,
+        isBookingSuccess: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 const InitialVarId = {
   varId: 0,
 };
@@ -449,4 +463,6 @@ export {
   ChangeTotalCost,
   InitialMovieId,
   ChangeMovieId,
+  InitialBookingStatus,
+  ChangeBookingStatus,
 };

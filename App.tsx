@@ -37,34 +37,6 @@ import {store} from './src/store';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-// function Home() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({route}) => ({
-//         tabBarIcon: ({focused, color, size}) => {
-//           let icon_name;
-//           if (route.name === 'Movies') {
-//             icon_name = 'film';
-//           } else if (route.name === 'Search') {
-//             icon_name = 'search';
-//           } else if (route.name === 'My Bookings') {
-//             icon_name = 'bars';
-//           } else {
-//             icon_name = 'user';
-//           }
-//           return <FontAwesome name={icon_name} size={size} color={color} />;
-//         },
-//         tabBarActiveTintColor: 'purple',
-//         tabBarInactiveTintColor: 'gray',
-//         headerShown: false,
-//       })}>
-//       <Tab.Screen name="Movies" component={Movies} />
-//       <Tab.Screen name="Search" component={Search} />
-//       <Tab.Screen name="My Bookings" component={Bookings} />
-//       <Tab.Screen name="Account" component={Account} />
-//     </Tab.Navigator>
-//   );
-// }
 function TabNavigate() {
   return (
     <Stack.Navigator>

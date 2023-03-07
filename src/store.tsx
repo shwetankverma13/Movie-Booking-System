@@ -8,6 +8,7 @@ import {
   ChangeSeatId,
   ChangeTotalCost,
   ChangeMovieId,
+  ChangeBookingStatus,
 } from './redux/reducer';
 import thunk from 'redux-thunk';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
@@ -22,5 +23,6 @@ const rootReducer = combineReducers({
   ChangeSeatId,
   ChangeTotalCost,
   ChangeMovieId,
+  ChangeBookingStatus,
 });
 export const store = createStore(rootReducer);
