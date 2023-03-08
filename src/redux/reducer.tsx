@@ -357,93 +357,73 @@ const theatre = [
     title: 'Urvashi Cin...',
     image: require('../images/Urvashi.png'),
     location: 'Shivaji Nagar',
-    timings: [
-      {time: '2:00 PM', num: 1},
-      {time: '5:30 PM', num: 1},
-      {time: '7:00 PM', num: 1},
-      {time: '9:00 PM', num: 1},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM', '9:30 PM'],
   },
   {
     id: '2',
     title: 'Inox',
     image: require('../images/no_img.png'),
     location: '1mg Mall',
-    timings: [
-      {time: '2:00 PM', num: 2},
-      {time: '5:30 PM', num: 2},
-      {time: '9:00 PM', num: 2},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM'],
   },
   {
     id: '3',
     title: 'Cinepolis',
     image: require('../images/no_img.png'),
     location: 'Majestic Hebal',
-    timings: [
-      {time: '2:00 PM', num: 3},
-      {time: '5:30 PM', num: 3},
-      {time: '7:00 PM', num: 3},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM'],
   },
   {
     id: '4',
     title: 'PVR',
     image: require('../images/no_img.png'),
     location: 'Forum Mall',
-    timings: [
-      {time: '2:00 PM', num: 4},
-      {time: '7:00 PM', num: 4},
-      {time: '9:00 PM', num: 4},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM'],
   },
   {
     id: '5',
     title: 'Cinema Hall',
     image: require('../images/no_img.png'),
     location: 'xyz',
-    timings: [
-      {time: '2:00 PM', num: 5},
-      {time: '5:30 PM', num: 5},
-      {time: '7:00 PM', num: 5},
-      {time: '9:00 PM', num: 5},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM', '9:30 PM'],
   },
   {
     id: '6',
     title: 'Cinema Hall',
     image: require('../images/no_img.png'),
     location: 'xyz',
-    timings: [
-      {time: '2:00 PM', num: 6},
-      {time: '5:30 PM', num: 6},
-      {time: '9:00 PM', num: 6},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM', '9:30 PM'],
   },
   {
     id: '7',
     title: 'Cinema Hall',
     image: require('../images/no_img.png'),
     location: 'xyz',
-    timings: [
-      {time: '7:00 PM', num: 7},
-      {time: '9:00 PM', num: 7},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM', '9:30 PM'],
   },
   {
     id: '8',
     title: 'Cinema Hall',
     image: require('../images/no_img.png'),
     location: 'xyz',
-    timings: [
-      {time: '2:00 PM', num: 8},
-      {time: '5:30 PM', num: 8},
-      {time: '7:00 PM', num: 8},
-      {time: '9:00 PM', num: 8},
-    ],
+    timings: ['2:00 PM', '5:30 PM', '7:00 PM', '9:30 PM'],
   },
 ];
 const ChangeTheatre = (state = theatre) => state;
+const InitalMovie = {
+  MovieData: [],
+};
+const ChangeMovieData = (state = InitalMovie, action: any) => {
+  switch (action.type) {
+    case 'getMovies':
+      return {
+        ...state,
+        MovieData: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 export {
   ChangeVisible,
   InitialStateVisible,
@@ -465,4 +445,6 @@ export {
   ChangeMovieId,
   InitialBookingStatus,
   ChangeBookingStatus,
+  InitalMovie,
+  ChangeMovieData,
 };

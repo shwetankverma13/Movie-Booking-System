@@ -22,6 +22,7 @@ import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {setMovieId, setVarId} from '../redux/action';
 import {setLanguage} from '../redux/action';
+import MoviesEpic from '../epics/movies';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
@@ -33,8 +34,10 @@ export default function Movies(props: any) {
   //dispatch(setVarId.setVarId(5));
   const langOnClick = (index: number) => {
     dispatch(setLanguage(index));
+    console.log(lang);
   };
   const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
+  MoviesEpic();
   return (
     <View style={styles.container}>
       <MP_head />

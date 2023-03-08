@@ -153,7 +153,7 @@ export default function ShowLandingPage(props: any) {
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={movTheatre}
-          renderItem={({item}) => (
+          renderItem={alpha => (
             // arr.push({title:item.title});
             <View>
               <View>
@@ -165,14 +165,14 @@ export default function ShowLandingPage(props: any) {
                     fontSize: 14,
                     lineHeight: 18,
                   }}>
-                  {item.title} , {item.location}
+                  {alpha.item.title} , {alpha.item.location}
                 </Text>
               </View>
               <View>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   horizontal
-                  data={item.timings}
+                  data={alpha.item.timings}
                   renderItem={({item, index}) => (
                     <View>
                       <View
@@ -184,7 +184,7 @@ export default function ShowLandingPage(props: any) {
                         <TouchableOpacity
                           onPress={() => {
                             SetVisible(true);
-                            dispatch(setVarId(item.num - 1));
+                            dispatch(setVarId(parseInt(alpha.item.id) - 1));
                             dispatch(setVarTimeId(index));
                           }}>
                           <Text
@@ -197,7 +197,7 @@ export default function ShowLandingPage(props: any) {
                               borderLeftWidth: 10,
                               borderColor: 'green',
                             }}>
-                            {item.time}
+                            {item}
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -249,7 +249,7 @@ export default function ShowLandingPage(props: any) {
               }}>
               <Text style={{fontSize: 12, fontWeight: '400'}}>
                 {loc.title} • {loc.language} •{' '}
-                {movTheatre[varId].timings[varTimeId].time}
+                {movTheatre[varId].timings[varTimeId]}
               </Text>
               <TouchableOpacity style={{marginLeft: 4, marginTop: 3}}>
                 <FontAwesome name="chevron-down" color={'#444'} size={8} />

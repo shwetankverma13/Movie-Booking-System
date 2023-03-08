@@ -123,7 +123,7 @@ export default function Bookings({navigation}) {
               fontWeight: '600',
               marginTop: 16,
             }}>
-            {movTheatre[varId].timings[varTimeId].time}
+            {movTheatre[varId].timings[varTimeId]}
           </Text>
         </View>
         <View

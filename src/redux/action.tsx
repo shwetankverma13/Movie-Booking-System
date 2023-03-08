@@ -52,6 +52,12 @@ const setBookingStatus = (newBookingStatus: any) => {
     payload: newBookingStatus,
   };
 };
+const fetchMovies = (newMovies: any) => {
+  return {
+    type: 'getMovies',
+    payload: newMovies,
+  };
+};
 export {
   SetVisible,
   SetMovies,
@@ -63,4 +69,5 @@ export {
   setCost,
   setMovieId,
   setBookingStatus,
+  fetchMovies,
 };
