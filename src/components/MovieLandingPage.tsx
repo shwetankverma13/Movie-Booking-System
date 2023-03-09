@@ -21,7 +21,9 @@ export default function ShowLandingPage(props: any) {
   //console.log(props);
   const loc = props.route.params.item;
   const movData = useSelector((store: any) => store.ChangeMovie);
-  const movTheatre = useSelector((store: any) => store.ChangeTheatre);
+  const movTheatre = useSelector(
+    (store: any) => store.ChangeTheatreData,
+  ).TheatreData;
   const varId = useSelector((store: any) => store.ChangeVaribleId.varId);
   const varTimeId = useSelector(
     (store: any) => store.ChangeVaribleTimeId.varTimeId,
@@ -111,7 +113,7 @@ export default function ShowLandingPage(props: any) {
 
   return (
     <View style={{flex: 1}}>
-      <Image source={loc.image} style={styles.image} />
+      <Image source={{uri: loc.image}} style={styles.image} />
 
       <Text style={styles.txtl}>{loc.title}</Text>
       <View style={{flexDirection: 'row'}}>

@@ -22,12 +22,16 @@ import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {setMovieId, setVarId} from '../redux/action';
 import {setLanguage} from '../redux/action';
-import MoviesEpic from '../epics/movies';
+import MoviesEpic from '../epics/moviesDis';
+import TheatreEpic from '../epics/theatreDis';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
-  const movDatas = useSelector((store: any) => store.ChangeMovie);
-  const movTheatre = useSelector((store: any) => store.ChangeTheatre);
+  const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
+
+  const movTheatre = useSelector(
+    (store: any) => store.ChangeTheatreData,
+  ).TheatreData;
   var [isPress, setIsPress] = React.useState(false);
   const lang = useSelector((store: any) => store.changeLanguage);
   const dispatch = useDispatch();
@@ -36,8 +40,12 @@ export default function Movies(props: any) {
     dispatch(setLanguage(index));
     console.log(lang);
   };
+
   const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
+
   MoviesEpic();
+  TheatreEpic();
+  //  console.log(movDatas);
   return (
     <View style={styles.container}>
       <MP_head />
@@ -69,7 +77,10 @@ export default function Movies(props: any) {
                   console.log(movieId);
                   props.navigation.navigate('ShowLandingPage', {item});
                 }}>
-                <Image source={item.image} />
+                <Image
+                  style={{width: 100, height: 100}}
+                  source={{uri: item.image}}
+                />
               </TouchableOpacity>
             </View>
             <Text style={styles.txtBt1}>{item.title}</Text>
@@ -89,7 +100,10 @@ export default function Movies(props: any) {
             <View style={styles.container}>
               <View style={styles.boxx}>
                 <TouchableOpacity onPress={() => pressHandler(item.title)}>
-                  <Image source={item.image} />
+                  <Image
+                    style={{width: 100, height: 100, marginTop: 16}}
+                    source={{uri: item.image}}
+                  />
                 </TouchableOpacity>
               </View>
               <Text style={styles.txtBt1}>{item.title}</Text>

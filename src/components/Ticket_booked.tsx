@@ -10,27 +10,33 @@ export default function Book_ticket({navigation}) {
     setVisible(!visible);
   };
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text style={styles.textStyle}>Ticket Booked Successfully</Text>
-      <Image style={styles.img} source={require('../images/yay.png')} />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <TouchableOpacity onPress={() => navigation.navigate('Bookings')}>
-        <Text
-          style={{
-            textAlign: 'center',
-            color: 'blue',
-            fontSize: 14,
-            padding: 7,
-            marginStart: 7,
-            marginTop: 5,
-            fontWeight: 'bold',
-            textDecorationLine: 'underline',
-          }}>
-          Ticket Summary
-        </Text>
-      </TouchableOpacity>
+        <Text style={styles.textStyle}>Ticket Booked Successfully</Text>
+        <Image style={styles.img} source={require('../images/yay.png')} />
+        <TouchableOpacity onPress={() => navigation.navigate('Bookings')}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'blue',
+              fontSize: 14,
+              padding: 7,
+              marginStart: 7,
+              marginTop: 5,
+              fontWeight: 'bold',
+              textDecorationLine: 'underline',
+            }}>
+            Ticket Summary
+          </Text>
+        </TouchableOpacity>
 
-      {/* <View> */}
-      {/* <Modal
+        {/* <View> */}
+        {/* <Modal
         style={{
           width: '100%',
           marginBottom: 0,
@@ -62,7 +68,8 @@ export default function Book_ticket({navigation}) {
           </Text>
         </View>
       </Modal> */}
-      {/* </View> */}
+        {/* </View> */}
+      </TouchableOpacity>
     </View>
   );
 }

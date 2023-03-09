@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
 
 export default function Bookings({navigation}) {
-  const movData = useSelector((store: any) => store.ChangeMovie);
+  const movData = useSelector((store: any) => store.ChangeMovieData).MovieData;
   const movTheatre = useSelector((store: any) => store.ChangeTheatre);
   const varId = useSelector((store: any) => store.ChangeVaribleId.varId);
   const varTimeId = useSelector(
@@ -57,7 +57,7 @@ export default function Bookings({navigation}) {
           }}>
           Ticket Booked
         </Text>
-        <Image source={movData[movieId].image} style={styles.image} />
+        <Image source={{uri: movData[movieId].image}} style={styles.image} />
 
         <Text
           style={{

@@ -47,7 +47,11 @@ function TabNavigate() {
       />
 
       <Stack.Screen name="ShowLandingPage" component={ShowLandingPage} />
-      <Stack.Screen name="Book_ticket" component={Book_ticket} />
+      <Stack.Screen
+        name="Book_ticket"
+        component={Book_ticket}
+        options={{headerShown: false}}
+      />
       {/* <Stack.Screen name="Seats" component={Seats} /> */}
       {/* <Stack.Screen name="Bookings" component={Bookings} /> */}
     </Stack.Navigator>

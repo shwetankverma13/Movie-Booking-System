@@ -9,10 +9,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
-
 	// "github.com/gin-gonic/gin"
 	// "github.com/gorilla/mux"
-	_ "github.com/lib/pq"
+	// _ "github.com/lib/pq"
 )
 
 type movie struct {
@@ -54,7 +53,7 @@ func GetMovies(c *gin.Context) {
 
 	printMessage("Getting movies...")
 
-	// Get all movies from movies table that don't have movieID = "1"
+	// Get all movies from movies table
 	rows, err := db.Query(`SELECT * FROM "Movies"`)
 
 	// check errors
@@ -143,7 +142,7 @@ func main() {
 	router.GET("/movies", GetMovies)
 	router.GET("/theatres", GetTheatre)
 
-	router.Run(":9090")
+	router.Run("localhost:9090")
 
 	// router := mux.NewRouter()
 	// router.HandleFunc("/movies", GetMovies).Methods("GET")
