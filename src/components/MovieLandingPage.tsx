@@ -8,19 +8,17 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {movData} from './ListMovies';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {theatre} from './threatresList';
+
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBookingStatus, setCost, setVarId} from '../redux/action';
 import {setVarTimeId} from '../redux/action';
 import {setSeats} from '../redux/action';
-import Book_ticket from './Ticket_booked';
 export default function ShowLandingPage(props: any) {
   //console.log(props);
   const loc = props.route.params.item;
-  const movData = useSelector((store: any) => store.ChangeMovie);
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
   ).TheatreData;

@@ -102,7 +102,7 @@ func GetTheatre(c *gin.Context) {
 	// var response []JsonResponse
 	var theatres []theatre
 
-	// Foreach movie
+	// For each movie
 	for rows.Next() {
 		var id string
 		var title string
@@ -120,9 +120,6 @@ func GetTheatre(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, theatres)
 
-	// var response = JsonResponse{Type: "success", Data: movies}
-
-	// json.NewEncoder(w).Encode(response)
 }
 
 func checkErr(err error) {

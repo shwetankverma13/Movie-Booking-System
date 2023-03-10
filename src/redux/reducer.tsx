@@ -85,6 +85,20 @@ const ChangeTotalCost = (state = InitialCost, action: any) => {
   }
 };
 
+const InitialLangClick = {
+  langIndex: 0,
+};
+const ChangeLangIndex = (state = InitialLangClick, action: any) => {
+  switch (action.type) {
+    case 'langIndex':
+      return {
+        ...state,
+        langIndex: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 const selectLanguage = [
   {name: 'All', id: '1', color: '#4A148C33'},
   {name: 'English', id: '2', color: 'white'},
@@ -447,6 +461,8 @@ export {
   ChangeVaribleId,
   InitialTimeId,
   ChangeVaribleTimeId,
+  InitialLangClick,
+  ChangeLangIndex,
   changeLanguage,
   selectLanguage,
   selectSeats,

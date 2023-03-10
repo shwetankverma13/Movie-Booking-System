@@ -40,6 +40,12 @@ const setCost = (newVisibleSeats: any) => {
     payload: newVisibleSeats,
   };
 };
+const setLangIndex = (newVisibleSeats: any) => {
+  return {
+    type: 'langIndex',
+    payload: newVisibleSeats,
+  };
+};
 const setMovieId = (newVisibleSeats: any) => {
   return {
     type: 'SetMovieId',
@@ -68,6 +74,7 @@ export {
   SetVisible,
   SetMovies,
   SetTheatre,
+  setLangIndex,
   setVarId,
   setVarTimeId,
   setLanguage,

@@ -9,21 +9,14 @@ import {
   Image,
 } from 'react-native';
 import MP_head from './Header';
-//import {movData} from './ListMovies';
-import {theatre} from './threatresList';
 import {langs} from './ListLanguage';
-import {DataTable} from 'react-native-paper';
-import {Dropdown} from 'react-native-element-dropdown';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Seats from './Seats';
-import ShowLandingPage from './MovieLandingPage';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {setMovieId, setVarId} from '../redux/action';
+import {setLangIndex, setMovieId, setVarId} from '../redux/action';
 import {setLanguage} from '../redux/action';
 import MoviesEpic from '../epics/moviesDis';
 import TheatreEpic from '../epics/theatreDis';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
@@ -36,13 +29,15 @@ export default function Movies(props: any) {
   const lang = useSelector((store: any) => store.changeLanguage);
   const dispatch = useDispatch();
   //dispatch(setVarId.setVarId(5));
+
+  const langId = useSelector((store: any) => store.ChangeLangIndex).langIndex;
+  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
   const langOnClick = (index: number) => {
     dispatch(setLanguage(index));
-    console.log(lang);
+    dispatch(setLangIndex(index));
+    // console.log(langId);
+    // console.log(lang);
   };
-
-  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
-
   MoviesEpic();
   TheatreEpic();
   //  console.log(movDatas);
@@ -67,7 +62,10 @@ export default function Movies(props: any) {
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={movDatas}
+        data={movDatas.filter(
+          (item: any) =>
+            item.language == lang[langId].name || lang[langId].name == 'All',
+        )}
         renderItem={({item, index}) => (
           <View style={styles.container}>
             <View style={styles.boxx}>
@@ -92,7 +90,7 @@ export default function Movies(props: any) {
       <Text style={styles.tm}>Theatres</Text>
       <ScrollView horizontal={true}>
         <FlatList
-          numColumns={Math.ceil(theatre.length / 2)}
+          numColumns={Math.ceil(8 / 2)}
           // horizontal
           data={movTheatre}
           showsHorizontalScrollIndicator={false}

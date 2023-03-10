@@ -5,9 +5,6 @@ import {fetchMovies} from '../redux/action';
 
 function MoviesEpic() {
   const dispatch = useDispatch();
-
-  //console.log('jhv', fetchMovies);
-
   useEffect(() => {
     axios
       .get('http://localhost:9090/movies')
