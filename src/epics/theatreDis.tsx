@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchMovies, fetchTheatre} from '../redux/action';
+import {fetchTheatre} from '../redux/action/fetchTheatre';
 
 function TheatreEpic() {
   const dispatch = useDispatch();

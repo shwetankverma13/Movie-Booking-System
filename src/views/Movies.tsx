@@ -8,15 +8,16 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import MP_head from './Header';
-import {langs} from './ListLanguage';
+import MP_head from '../components/Header';
+import {langs} from '../components/ListLanguage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLangIndex, setMovieId, setVarId} from '../redux/action';
-import {setLanguage} from '../redux/action';
 import MoviesEpic from '../epics/moviesDis';
 import TheatreEpic from '../epics/theatreDis';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {setMovieId} from '../redux/action/setMovieId';
+import {setLangIndex} from '../redux/action/setLangIndex';
+import {setLanguage} from '../redux/action/setLanguage';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
@@ -57,7 +58,16 @@ export default function Movies(props: any) {
           </View>
         )}
       />
-      <Text style={styles.tm}>Movies</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style={styles.tm}>Movies</Text>
+        <TouchableOpacity>
+          <AntDesign
+            name="arrowright"
+            size={20}
+            style={{marginTop: 20, marginRight: 16}}
+          />
+        </TouchableOpacity>
+      </View>
 
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -86,8 +96,17 @@ export default function Movies(props: any) {
           </View>
         )}
       />
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style={styles.tm}>Theatres</Text>
+        <TouchableOpacity>
+          <AntDesign
+            name="arrowright"
+            size={20}
+            style={{marginTop: 20, marginRight: 16}}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <Text style={styles.tm}>Theatres</Text>
       <ScrollView horizontal={true}>
         <FlatList
           numColumns={Math.ceil(8 / 2)}
@@ -99,7 +118,7 @@ export default function Movies(props: any) {
               <View style={styles.boxx}>
                 <TouchableOpacity onPress={() => pressHandler(item.title)}>
                   <Image
-                    style={{width: 100, height: 100, marginTop: 16}}
+                    style={{width: 100, height: 100}}
                     source={{uri: item.image}}
                   />
                 </TouchableOpacity>

@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Image} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-export default function Bookings({navigation}) {
+export default function Bookings(props: any) {
   const movData = useSelector((store: any) => store.ChangeMovieData).MovieData;
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
@@ -45,8 +46,13 @@ export default function Bookings({navigation}) {
     return (
       <View style={{flex: 1}}>
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate('Movies')}>
-            <Entypo name="chevron-with-circle-left" style={styles.pina} />
+          <TouchableOpacity onPress={() => props.navigation.navigate('Movies')}>
+            <AntDesign
+              name="arrowleft"
+              size={16}
+              color={'black'}
+              style={styles.pina}
+            />
           </TouchableOpacity>
         </View>
 

@@ -4,7 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 import {SafeAreaView} from 'react-native-safe-area-context';
 import book_ticket from './Ticket_booked';
-export default function Book_ticket({navigation}) {
+export default function Book_ticket(props: any) {
   const [visible, setVisible] = useState(false);
   const toggleModal = () => {
     setVisible(!visible);
@@ -16,10 +16,10 @@ export default function Book_ticket({navigation}) {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <TouchableOpacity onPress={() => navigation.navigate('Bookings')}>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Bookings')}>
         <Text style={styles.textStyle}>Ticket Booked Successfully</Text>
         <Image style={styles.img} source={require('../images/yay.png')} />
-        <TouchableOpacity onPress={() => navigation.navigate('Bookings')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Bookings')}>
           <Text
             style={{
               textAlign: 'center',

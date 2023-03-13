@@ -7,17 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import modalSeats from '../components/modalSeats';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
-import {setBookingStatus, setCost, setVarId} from '../redux/action';
-import {setVarTimeId} from '../redux/action';
-import {setSeats} from '../redux/action';
+import {setBookingStatus} from '../redux/action/setBookingStatus';
+import {setCost} from '../redux/action/setCost';
+import {setSeats} from '../redux/action/setSeats';
+import {setVarId} from '../redux/action/setVarId';
+import {setVarTimeId} from '../redux/action/setVarTimeId';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 export default function ShowLandingPage(props: any) {
   //console.log(props);
+  const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
   const loc = props.route.params.item;
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
@@ -111,18 +117,36 @@ export default function ShowLandingPage(props: any) {
 
   return (
     <View style={{flex: 1}}>
-      <Image source={{uri: loc.image}} style={styles.image} />
-
-      <Text style={styles.txtl}>{loc.title}</Text>
+      {/* <Image source={{uri: movDatas[movieId].image}} style={styles.image} /> */}
+      <ImageBackground
+        source={{uri: movDatas[movieId].image}}
+        style={styles.image}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.goBack();
+            //console.log(props.navigation.goBack());
+          }}>
+          <AntDesign
+            name="arrowleft"
+            size={25}
+            color={'#FFFFFF'}
+            style={{
+              marginTop: 16,
+              marginLeft: 16,
+            }}
+          />
+        </TouchableOpacity>
+      </ImageBackground>
+      <Text style={styles.txtl}>{movDatas[movieId].title}</Text>
       <View style={{flexDirection: 'row'}}>
-        <Text style={styles.txtlan}>{loc.language}</Text>
+        <Text style={styles.txtlan}>{movDatas[movieId].language}</Text>
         <Text style={styles.textU}> U/A</Text>
-        <Text style={styles.txtlan}>{loc.year}</Text>
-        <Text style={styles.txtlan}>{loc.genre}</Text>
+        <Text style={styles.txtlan}>{movDatas[movieId].year}</Text>
+        <Text style={styles.txtlan}>{movDatas[movieId].genre}</Text>
 
-        <Text style={styles.txtlan}>{loc.duration}</Text>
+        <Text style={styles.txtlan}>{movDatas[movieId].duration}</Text>
       </View>
-      <Text style={styles.desc}>{loc.description}</Text>
+      <Text style={styles.desc}>{movDatas[movieId].description}</Text>
       <View style={styles.arrow}>
         <TouchableOpacity>
           <FontAwesome name="chevron-down" color={'#444'} size={12} />
@@ -208,6 +232,7 @@ export default function ShowLandingPage(props: any) {
             </View>
           )}
         />
+
         <Modal
           style={{width: '100%', marginBottom: 0, marginLeft: 0}}
           onBackdropPress={() => SetVisible(false)}
@@ -309,7 +334,6 @@ export default function ShowLandingPage(props: any) {
           </View>
         </Modal>
       </View>
-      <View></View>
     </View>
   );
 }
@@ -317,7 +341,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 164,
-    marginTop: 0,
+    marginTop: 35,
   },
   txtl: {
     width: 200,

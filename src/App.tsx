@@ -18,22 +18,17 @@ import {
   View,
 } from 'react-native';
 
-import MP_head from './src/components/Header';
-import MP_Foot from './src/components/Footer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Account from './src/components/Account';
-import Bookings from './src/components/Bookings';
-import Search from './src/components/Search';
-import Movies from './src/components/Movies';
+import Account from './views/Account';
+import Bookings from './views/Bookings';
+import Search from './views/Search';
+import Movies from './views/Movies';
 import {createStackNavigator} from '@react-navigation/stack';
-import ShowMPage from './src/components/MoviesPage';
-import Seats from './src/components/Seats';
-import ShowLandingPage from './src/components/MovieLandingPage';
-import book_ticket from './src/components/Ticket_booked';
-import Book_ticket from './src/components/Ticket_booked';
+import ShowLandingPage from './views/MovieLandingPage';
+import Book_ticket from './views/Ticket_booked';
 import {Provider} from 'react-redux';
-import {store} from './src/store';
+import {store} from './store';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -46,7 +41,11 @@ function TabNavigate() {
         options={{headerShown: false}}
       />
 
-      <Stack.Screen name="ShowLandingPage" component={ShowLandingPage} />
+      <Stack.Screen
+        name="ShowLandingPage"
+        component={ShowLandingPage}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="Book_ticket"
         component={Book_ticket}
