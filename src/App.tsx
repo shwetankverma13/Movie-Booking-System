@@ -8,15 +8,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -58,6 +50,12 @@ function TabNavigate() {
 }
 function App() {
   return (
+    //using provider , I wanted to access the react redux store.
+    //     Thereafter I used
+    // NavigationContainer : which provides a way to navigate between different screens or views in an app, and it supports a variety of navigation patterns such as stack navigation, tab navigation, drawer navigation, and more.
+    // Now, as my app will be rendered I need 4 icons which points to different pages hence used Tab Navigations.
+    // Tab Navigations -> Movies, Search, Bookings,Account
+    // Now inside the tab navigation of Movies I have called stack navigator which navigates me to different pages in the movies tab.
     <Provider store={store}>
       <NavigationContainer>
         <Tab.Navigator

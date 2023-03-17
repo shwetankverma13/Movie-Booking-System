@@ -18,21 +18,27 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {setMovieId} from '../redux/action/setMovieId';
 import {setLangIndex} from '../redux/action/setLangIndex';
 import {setLanguage} from '../redux/action/setLanguage';
+import tomEpic from '../epics/tomDis';
 const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
-  const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
 
+  // Movies Data fetched from API
+  const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
+  //Theatre Table Data fetched from API
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
   ).TheatreData;
   var [isPress, setIsPress] = React.useState(false);
+
+  // array of language selection
   const lang = useSelector((store: any) => store.changeLanguage);
   const dispatch = useDispatch();
   //dispatch(setVarId.setVarId(5));
 
   const langId = useSelector((store: any) => store.ChangeLangIndex).langIndex;
-  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
+  const movieId = useSelector((store: any) => store.ChangeMovieId).movieId;
+  //console.log(movieId);
   const langOnClick = (index: number) => {
     dispatch(setLanguage(index));
     dispatch(setLangIndex(index));
@@ -42,6 +48,8 @@ export default function Movies(props: any) {
   MoviesEpic();
   TheatreEpic();
   //  console.log(movDatas);
+  //const tomData = useSelector((store:any) => store.ChangeTheatreOfMovieData).tomData;
+
   return (
     <View style={styles.container}>
       <MP_head />
@@ -82,7 +90,9 @@ export default function Movies(props: any) {
               <TouchableOpacity
                 onPress={() => {
                   dispatch(setMovieId(index));
-                  console.log(movieId);
+                  // console.log(movieId);
+                  //   tomEpic(movDatas[movieId].title);
+                  //console.log(movDatas[movieId].title);
                   props.navigation.navigate('ShowLandingPage', {item});
                 }}>
                 <Image

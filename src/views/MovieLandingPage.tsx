@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -20,6 +22,9 @@ import {setSeats} from '../redux/action/setSeats';
 import {setVarId} from '../redux/action/setVarId';
 import {setVarTimeId} from '../redux/action/setVarTimeId';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {fetchDate, fetchDateSuccess} from '../redux/action/fetchDate';
+import {setDateIndex} from '../redux/action/setDateIndex';
+import tomEpic from '../epics/tomDis';
 
 export default function ShowLandingPage(props: any) {
   //console.log(props);
@@ -46,6 +51,28 @@ export default function ShowLandingPage(props: any) {
   const movieStatus = useSelector(
     (store: any) => store.ChangeBookingStatus.isBookingSuccess,
   );
+  const dayDate = useSelector((store: any) => store.ChangeDayDate);
+  console.log(dayDate);
+  const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
+  // console.log(dateId);
+  console.log(movDatas[movieId].title);
+  tomEpic(movDatas[movieId].title);
+  const tomData = useSelector(
+    (store: any) => store.ChangeTheatreOfMovieData,
+  ).tomData;
+  console.log(tomData);
+
+  const dateOnClick = (index: number) => {
+    // dispatch(fetchDate(index));
+    // dispatch(setDateIndex(index));
+    // console.log(langId);
+    // console.log(lang);
+  };
+  const showTime = (arr: any, tName: any) => {
+    if (arr.theatreName === tName) {
+      return arr.time;
+    }
+  };
   const handleSeatChange = (row: number, col: number) => {
     if (activeSeatId[row][col]) activeSeatId[row][col] = false;
     else activeSeatId[row][col] = true;
@@ -152,20 +179,74 @@ export default function ShowLandingPage(props: any) {
           <FontAwesome name="chevron-down" color={'#444'} size={12} />
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', marginLeft: 12, marginTop: 20}}>
-        <Text style={styles.date}> 04 Feb</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginLeft: 12,
+          marginTop: 20,
+          justifyContent: 'center',
+          alignContent: 'center',
+        }}>
+        {/* <Text style={styles.date}> 04 Feb</Text>
         <Text style={styles.date}> 05 Feb</Text>
         <Text style={styles.date}> 06 Feb</Text>
         <Text style={styles.date}> 07 Feb</Text>
-        <Text style={styles.date}> 08 Feb</Text>
+        <Text style={styles.date}> 08 Feb</Text> */}
+        <FlatList
+          data={dayDate}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          keyExtractor={(item, index) => 'key' + index}
+          renderItem={({item, index}) => (
+            <View>
+              <View
+                style={{
+                  borderBottomColor:
+                    dayDate[index].color === '#4A148C33'
+                      ? '#4A148C33'
+                      : 'white',
+                  borderBottomWidth: 1,
+                }}>
+                <TouchableOpacity onPress={() => dateOnClick(index)}>
+                  <Text
+                    style={[
+                      styles.date,
+                      {fontWeight: item.blur ? '100' : '600'},
+                      {
+                        color:
+                          dayDate[index].color === '#4A148C33'
+                            ? '#4A148C33'
+                            : 'black',
+                      },
+                    ]}>
+                    {item.date}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.date,
+                      {fontWeight: item.blur ? '100' : '600'},
+                      {
+                        color:
+                          dayDate[index].color === '#4A148C33'
+                            ? '#4A148C33'
+                            : 'black',
+                      },
+                    ]}>
+                    {item.day}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        />
       </View>
-      <View style={{flexDirection: 'row', marginLeft: 12, marginTop: 4}}>
+      {/* <View style={{flexDirection: 'row', marginLeft: 12, marginTop: 4}}>
         <Text style={styles.date}> TODAY</Text>
         <Text style={styles.date}> TOMO</Text>
         <Text style={styles.date3}> MON</Text>
         <Text style={styles.date4}> TUE</Text>
         <Text style={styles.date5}> WED</Text>
-      </View>
+      </View> */}
       <View
         style={{
           borderBottomColor: 'black',
@@ -176,7 +257,8 @@ export default function ShowLandingPage(props: any) {
       <View style={{flex: 1}}>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          data={movTheatre}
+          data={tomData}
+          keyExtractor={(item, index) => 'key' + index}
           renderItem={alpha => (
             // arr.push({title:item.title});
             <View>
@@ -189,14 +271,15 @@ export default function ShowLandingPage(props: any) {
                     fontSize: 14,
                     lineHeight: 18,
                   }}>
-                  {alpha.item.title} , {alpha.item.location}
+                  {alpha.item.theatreName}
                 </Text>
               </View>
               <View>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   horizontal
-                  data={alpha.item.timings}
+                  data={alpha.item.time}
+                  keyExtractor={(item, index) => 'key' + index}
                   renderItem={({item, index}) => (
                     <View>
                       <View
@@ -208,8 +291,9 @@ export default function ShowLandingPage(props: any) {
                         <TouchableOpacity
                           onPress={() => {
                             SetVisible(true);
-                            dispatch(setVarId(parseInt(alpha.item.id) - 1));
-                            dispatch(setVarTimeId(index));
+                            //  dispatch(setVarId(parseInt(alpha.item.id) - 1));
+                            dispatch(setVarId(alpha.item.theatreName));
+                            dispatch(setVarTimeId(item));
                           }}>
                           <Text
                             style={{
@@ -264,7 +348,7 @@ export default function ShowLandingPage(props: any) {
                 marginTop: 24,
                 fontSize: 16,
               }}>
-              {movTheatre[varId].title} , {movTheatre[varId].location}
+              {varId}
             </Text>
             <View
               style={{
@@ -273,8 +357,7 @@ export default function ShowLandingPage(props: any) {
                 marginTop: 4,
               }}>
               <Text style={{fontSize: 12, fontWeight: '400'}}>
-                {loc.title} • {loc.language} •{' '}
-                {movTheatre[varId].timings[varTimeId]}
+                {loc.title} • {loc.language} • {varTimeId}
               </Text>
               <TouchableOpacity style={{marginLeft: 4, marginTop: 3}}>
                 <FontAwesome name="chevron-down" color={'#444'} size={8} />
@@ -304,10 +387,14 @@ export default function ShowLandingPage(props: any) {
             <View style={{marginLeft: 5, marginTop: 40}}>{row}</View>
             <TouchableOpacity
               onPress={() => {
-                dispatch(setBookingStatus(true));
-                console.log(movieStatus);
-                props.navigation.navigate('Book_ticket');
-                SetVisible(!visible);
+                if (costID === 0) {
+                  Alert.alert('Please Select a Seat to proceed further');
+                } else {
+                  dispatch(setBookingStatus(true));
+                  console.log(movieStatus);
+                  props.navigation.navigate('Book_ticket');
+                  SetVisible(!visible);
+                }
               }}
               style={{
                 marginBottom: 0,
@@ -394,7 +481,8 @@ const styles = StyleSheet.create({
     marginRight: 24,
     fontSize: 12,
     textAlign: 'center',
-    fontWeight: '400',
+    justifyContent: 'center',
+    color: 'black',
   },
   date3: {
     marginLeft: 4,

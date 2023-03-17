@@ -14,6 +14,7 @@ import (
 	// _ "github.com/lib/pq"
 )
 
+// the tag is json:"id", which indicates that the field should be marshaled to and unmarshaled from JSON using the key "id".
 type movie struct {
 	Id          string `json:"id"`
 	Title       string `json:"title"`
@@ -30,6 +31,18 @@ type theatre struct {
 	Image    string         `json:"image"`
 	Location string         `json:"location"`
 	Timings  pq.StringArray `json:"timings"`
+}
+
+// tom and finalDT are of the same thing, finalDT is the map combining the theatres with timings array to avoid redundancy
+type tom struct {
+	TheatreTitle string `json:"theatreName"`
+	Time         string `json:"time"`
+	MovieTitle   string `json:"movieName"`
+	Location     string `json:"location"`
+}
+type finalDT struct {
+	TheatreName string   `json:"theatreName"`
+	Timing      []string `json:"time"`
 }
 
 const (
@@ -73,6 +86,7 @@ func GetMovies(c *gin.Context) {
 		var duration string
 		var year string
 
+		//The Scan method is used to read the values from the current row into the specified variables
 		err = rows.Scan(&id, &title, &image, &language, &genre, &description, &duration, &year)
 
 		// check errors
@@ -83,9 +97,6 @@ func GetMovies(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, movies)
 
-	// var response = JsonResponse{Type: "success", Data: movies}
-
-	// json.NewEncoder(w).Encode(response)
 }
 
 func GetTheatre(c *gin.Context) {
@@ -108,17 +119,51 @@ func GetTheatre(c *gin.Context) {
 		var title string
 		var image string
 		var location string
-		var timings pq.StringArray
+		// var timings pq.StringArray
 
-		err = rows.Scan(&id, &title, &image, &location, &timings)
+		// err = rows.Scan(&id, &title, &image, &location, &timings)
+		err = rows.Scan(&id, &title, &image, &location)
 
 		// check errors
 		checkErr(err)
 
-		theatres = append(theatres, theatre{Id: id, Title: title, Image: image, Location: location, Timings: timings})
+		// theatres = append(theatres, theatre{Id: id, Title: title, Image: image, Location: location, Timings: timings})
+		theatres = append(theatres, theatre{Id: id, Title: title, Image: image, Location: location})
 	}
 
 	c.IndentedJSON(http.StatusOK, theatres)
+
+}
+
+func GetTheatreOfMovies(c *gin.Context) {
+	db := setupDB()
+	movies_name := c.Param("movieName")
+	fmt.Println(movies_name)
+	rows, err := db.Query(`select DISTINCT th.title,th.location, t.time,m.title from "Booking" b,"Movies" m,"Theatre" th, "Timings" t where b.mid=m.mid and b.thid=th.thid and b.tid=t.tid and m.title=$1`, movies_name)
+	checkErr(err)
+	var toms []tom
+	for rows.Next() {
+		var theatreName string
+		var time string
+		var movieName string
+		var location string
+		err = rows.Scan(&theatreName, &location, &time, &movieName)
+		checkErr(err)
+		toms = append(toms, tom{TheatreTitle: theatreName, Location: location, Time: time, MovieTitle: movieName})
+	}
+	mp := make(map[string][]string)
+	for _, dt := range toms {
+		mp[dt.TheatreTitle+", "+dt.Location] = append(mp[dt.TheatreTitle+", "+dt.Location], dt.Time)
+	}
+	var finalData []finalDT
+	for k, v := range mp {
+		finalData = append(finalData, finalDT{TheatreName: k, Timing: v})
+	}
+	fmt.Println(finalData)
+	c.IndentedJSON(http.StatusOK, finalData)
+}
+
+func PostSeat(c *gin.Context) {
 
 }
 
@@ -138,7 +183,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/movies", GetMovies)
 	router.GET("/theatres", GetTheatre)
-
+	router.GET("/toms/:movieName", GetTheatreOfMovies)
 	router.Run("localhost:9090")
 
 	// router := mux.NewRouter()

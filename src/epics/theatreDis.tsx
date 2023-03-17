@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {useEffect} from 'react';
+import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchTheatre} from '../redux/action/fetchTheatre';
 
@@ -22,6 +23,7 @@ function TheatreEpic() {
       })
       .catch(function (error) {
         console.log(error.message);
+        Alert.alert(error.message);
       })
       .finally(function () {
         console.log('Finally called');

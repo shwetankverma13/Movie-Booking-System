@@ -2,21 +2,22 @@ import axios from 'axios';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchMovies} from '../redux/action/fetchMovies';
+import {fetchTOM} from '../redux/action/fetchTOM';
 
-function MoviesEpic() {
+function tomEpic(movie_name: any) {
   const dispatch = useDispatch();
+  const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
+  const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
+  //const movie_name = movDatas[movieId].title;
+  console.log(movie_name);
   useEffect(() => {
     axios
-      .get('http://localhost:9090/movies')
+      .get(`http://localhost:9090/toms/${movie_name}`)
       .then(function (response) {
         //changear(JSON.stringify(response.data));
-        response.data.map((x: any) => {
-          // console.log(x);
-          // console.log('next');
-          dispatch(fetchMovies(x));
-          //  console.log(fetchMovies);
-        });
+
+        dispatch(fetchTOM(response.data));
+        // console.log(x);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -27,4 +28,4 @@ function MoviesEpic() {
       });
   }, []);
 }
-export default MoviesEpic;
+export default tomEpic;

@@ -4,7 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 import {SafeAreaView} from 'react-native-safe-area-context';
 import book_ticket from './Ticket_booked';
-export default function Account({navigation}) {
+export default function Account(props: any) {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={styles.textStyle}>Not Functional at the moment</Text>

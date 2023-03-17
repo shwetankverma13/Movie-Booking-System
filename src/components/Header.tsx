@@ -12,10 +12,10 @@ import {
 } from 'react-native';
 import {Image} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Dropdown} from 'react-native-element-dropdown';
 import Entypo from 'react-native-vector-icons/Entypo';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const MP_head: FC = () => {
   //View to set in Header

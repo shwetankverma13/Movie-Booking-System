@@ -131,7 +131,7 @@ export default function Bookings(props: any) {
               fontWeight: '600',
               marginTop: 16,
             }}>
-            {movTheatre[varId].timings[varTimeId]}
+            {varTimeId}
           </Text>
         </View>
         <View
