@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Image} from 'react-native';
@@ -23,6 +24,8 @@ export default function Bookings(props: any) {
   const status = useSelector(
     (store: any) => store.ChangeBookingStatus.isBookingSuccess,
   );
+  const dayDate = useSelector((store: any) => store.ChangeDayDate);
+  const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
   //console.log(movData);
   const handleSeat = () => {
     let seat = '';
@@ -41,6 +44,13 @@ export default function Bookings(props: any) {
     console.log('movieId', movieId);
     return seat;
   };
+  axios.post('http://localhost:9090/seats/', {
+    // ticket_id: theatredata.mid + ', ' + thid + ', ' + tid + ', ' + handleSeat(),
+    // mid: movData[movieId].mid,
+    // thid: thid,
+    // tid: tid,
+    // seat: handleSeat(),
+  });
   console.log('bookingStatus', status);
   if (status == true) {
     return (
@@ -114,7 +124,7 @@ export default function Bookings(props: any) {
             Show Time
           </Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
             style={{
               marginLeft: 16,
@@ -122,11 +132,11 @@ export default function Bookings(props: any) {
               fontWeight: '600',
               marginTop: 16,
             }}>
-            04/02/2022
+            {dayDate[dateId].date}
           </Text>
           <Text
             style={{
-              marginLeft: 240,
+              marginRight: 16,
               fontSize: 12,
               fontWeight: '600',
               marginTop: 16,

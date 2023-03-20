@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+
 	// "encoding/json"
 	"fmt"
 	// "log"
@@ -43,6 +44,13 @@ type tom struct {
 type finalDT struct {
 	TheatreName string   `json:"theatreName"`
 	Timing      []string `json:"time"`
+}
+
+type Seat struct {
+	MovieID   string `json:"movieId"`
+	TheatreID string `json:"theatreID"`
+	SeatNum   string `json:"seatNum"`
+	TimeId    string `json:"timeId"`
 }
 
 const (
@@ -135,6 +143,7 @@ func GetTheatre(c *gin.Context) {
 
 }
 
+// for the movie detail page we need only the movie name,theatre name, location and the time . Hence I connected all the table and fetched these values from theatre movie time and bookings table.
 func GetTheatreOfMovies(c *gin.Context) {
 	db := setupDB()
 	movies_name := c.Param("movieName")
@@ -164,6 +173,24 @@ func GetTheatreOfMovies(c *gin.Context) {
 }
 
 func PostSeat(c *gin.Context) {
+	db := setupDB()
+	var seats []Seat
+	var seat Seat
+	// var mid = c.Param("mId")
+	// var thid = c.Param("thId")
+	// var seatBooked =c.Param("seatSelected")
+	if err := c.ShouldBindJSON(&seat); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	_, err1 := db.Query("insert into seats values ($1,$2,$3,$4)", seat.MovieID, seat.TheatreID, seat.SeatNum, seat.TimeId) //update query
+
+	checkErr(err1)
+
+	seats = append(seats, seat)
+
+	//c.JSON(http.StatusCreated, seat)
+	c.JSON(http.StatusOK, seats)
 
 }
 
@@ -184,6 +211,7 @@ func main() {
 	router.GET("/movies", GetMovies)
 	router.GET("/theatres", GetTheatre)
 	router.GET("/toms/:movieName", GetTheatreOfMovies)
+	router.POST("/seats", PostSeat)
 	router.Run("localhost:9090")
 
 	// router := mux.NewRouter()

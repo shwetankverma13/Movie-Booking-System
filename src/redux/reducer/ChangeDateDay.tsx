@@ -30,7 +30,7 @@ for (let i = 0; i < 5; i++) {
         id: did,
         date: mon,
         day: 'TODAY',
-        color: '#4A148C33',
+        color: 'black',
         blur: blur,
       },
     ];
@@ -68,15 +68,15 @@ const ChangeDayDate = (state = InitialSetDate, action: any) => {
   switch (action.type) {
     case 'getDate': {
       state = InitialSetDate;
-      return [state];
+      return [...state];
     }
     case 'getDateSuccess': {
       for (let i = 0; i < state.length; i++) {
-        if (i == action.payload) {
-          state[i].color = '#4A148C33';
-        } else {
-          state[i].color = 'black';
-        }
+        // if (i == action.payload) {
+        //   state[i].color = '#4A148C33';
+        // } else {
+        //   state[i].color = 'black';
+        // }
       }
       return [...state];
     }

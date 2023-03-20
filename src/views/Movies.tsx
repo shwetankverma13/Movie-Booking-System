@@ -56,7 +56,9 @@ export default function Movies(props: any) {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => {
+          return index.toString();
+        }}
         data={langs}
         renderItem={({item, index}) => (
           <View style={[styles.box, {backgroundColor: lang[index].color}]}>
@@ -84,6 +86,9 @@ export default function Movies(props: any) {
           (item: any) =>
             item.language == lang[langId].name || lang[langId].name == 'All',
         )}
+        keyExtractor={(item, index) => {
+          return index.toString();
+        }}
         renderItem={({item, index}) => (
           <View style={styles.container}>
             <View style={styles.boxx}>
@@ -123,6 +128,9 @@ export default function Movies(props: any) {
           // horizontal
           data={movTheatre}
           showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           renderItem={({item}) => (
             <View style={styles.container}>
               <View style={styles.boxx}>

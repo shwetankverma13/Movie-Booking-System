@@ -25,6 +25,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {fetchDate, fetchDateSuccess} from '../redux/action/fetchDate';
 import {setDateIndex} from '../redux/action/setDateIndex';
 import tomEpic from '../epics/tomDis';
+import axios from 'axios';
 
 export default function ShowLandingPage(props: any) {
   //console.log(props);
@@ -52,19 +53,20 @@ export default function ShowLandingPage(props: any) {
     (store: any) => store.ChangeBookingStatus.isBookingSuccess,
   );
   const dayDate = useSelector((store: any) => store.ChangeDayDate);
-  console.log(dayDate);
+  // console.log('kjhjk', dayDate);
   const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
   // console.log(dateId);
-  console.log(movDatas[movieId].title);
+  //console.log(movDatas[movieId].title);
   tomEpic(movDatas[movieId].title);
   const tomData = useSelector(
     (store: any) => store.ChangeTheatreOfMovieData,
   ).tomData;
-  console.log(tomData);
+  //console.log(tomData);
 
   const dateOnClick = (index: number) => {
-    // dispatch(fetchDate(index));
-    // dispatch(setDateIndex(index));
+    dispatch(fetchDate(index));
+    dispatch(setDateIndex(index));
+    console.log(dayDate[dateId].date);
     // console.log(langId);
     // console.log(lang);
   };
@@ -196,27 +198,27 @@ export default function ShowLandingPage(props: any) {
           data={dayDate}
           showsHorizontalScrollIndicator={false}
           horizontal
-          keyExtractor={(item, index) => 'key' + index}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           renderItem={({item, index}) => (
             <View>
               <View
                 style={{
                   borderBottomColor:
-                    dayDate[index].color === '#4A148C33'
-                      ? '#4A148C33'
-                      : 'white',
-                  borderBottomWidth: 1,
+                    dayDate[dateId].date === item.date ? '#6A1B9A' : 'white',
+                  borderBottomWidth: 2,
                 }}>
                 <TouchableOpacity onPress={() => dateOnClick(index)}>
                   <Text
                     style={[
                       styles.date,
-                      {fontWeight: item.blur ? '100' : '600'},
+                      {fontWeight: item.blur ? '200' : '600'},
                       {
                         color:
-                          dayDate[index].color === '#4A148C33'
-                            ? '#4A148C33'
-                            : 'black',
+                          dayDate[dateId].date === item.date
+                            ? '#6A1B9A'
+                            : item.color,
                       },
                     ]}>
                     {item.date}
@@ -224,12 +226,15 @@ export default function ShowLandingPage(props: any) {
                   <Text
                     style={[
                       styles.date,
-                      {fontWeight: item.blur ? '100' : '600'},
+                      {fontWeight: item.blur ? '200' : '600'},
                       {
                         color:
-                          dayDate[index].color === '#4A148C33'
-                            ? '#4A148C33'
-                            : 'black',
+                          dayDate[dateId].date === item.date
+                            ? '#6A1B9A'
+                            : item.color,
+                      },
+                      {
+                        marginBottom: 8,
                       },
                     ]}>
                     {item.day}
@@ -251,14 +256,16 @@ export default function ShowLandingPage(props: any) {
         style={{
           borderBottomColor: 'black',
           borderBottomWidth: StyleSheet.hairlineWidth,
-          marginTop: 8,
+          marginTop: 0,
         }}
       />
       <View style={{flex: 1}}>
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={tomData}
-          keyExtractor={(item, index) => 'key' + index}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           renderItem={alpha => (
             // arr.push({title:item.title});
             <View>
@@ -279,7 +286,9 @@ export default function ShowLandingPage(props: any) {
                   showsHorizontalScrollIndicator={false}
                   horizontal
                   data={alpha.item.time}
-                  keyExtractor={(item, index) => 'key' + index}
+                  keyExtractor={(item, index) => {
+                    return index.toString() + 'nested';
+                  }}
                   renderItem={({item, index}) => (
                     <View>
                       <View
@@ -334,7 +343,7 @@ export default function ShowLandingPage(props: any) {
             style={{
               position: 'absolute',
               bottom: 0,
-              height: 623,
+              height: 673,
               backgroundColor: 'white',
               width: '100%',
               borderTopRightRadius: 30,
@@ -391,6 +400,7 @@ export default function ShowLandingPage(props: any) {
                   Alert.alert('Please Select a Seat to proceed further');
                 } else {
                   dispatch(setBookingStatus(true));
+
                   console.log(movieStatus);
                   props.navigation.navigate('Book_ticket');
                   SetVisible(!visible);
@@ -398,20 +408,20 @@ export default function ShowLandingPage(props: any) {
               }}
               style={{
                 marginBottom: 0,
-                marginTop: 20,
+                marginTop: 35,
                 marginLeft: '10%',
                 borderRadius: 8,
                 backgroundColor: 'purple',
                 width: '80%',
-                height: 38,
+                height: 48,
                 alignItems: 'center',
                 alignContent: 'center',
               }}>
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 20,
                   color: 'white',
-                  marginTop: 8,
+                  marginTop: 10,
                   textTransform: 'capitalize',
                   fontWeight: '600',
                 }}>
@@ -483,6 +493,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     color: 'black',
+    marginLeft: 24,
   },
   date3: {
     marginLeft: 4,
