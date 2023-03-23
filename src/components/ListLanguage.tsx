@@ -1,13 +1,3 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
 type ItemTheatre = {
   id: string;
   name: string;

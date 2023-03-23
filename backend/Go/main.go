@@ -2,17 +2,11 @@ package main
 
 import (
 	"database/sql"
-
-	// "encoding/json"
 	"fmt"
-	// "log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
-	// "github.com/gin-gonic/gin"
-	// "github.com/gorilla/mux"
-	// _ "github.com/lib/pq"
 )
 
 // the tag is json:"id", which indicates that the field should be marshaled to and unmarshaled from JSON using the key "id".
@@ -48,9 +42,9 @@ type finalDT struct {
 
 type Seat struct {
 	MovieID   string `json:"movieId"`
-	TheatreID string `json:"theatreID"`
+	TheatreId string `json:"theatreId"`
 	SeatNum   string `json:"seatNum"`
-	TimeId    string `json:"timeId"`
+	Time      string `json:"time"`
 }
 
 const (
@@ -176,24 +170,36 @@ func PostSeat(c *gin.Context) {
 	db := setupDB()
 	var seats []Seat
 	var seat Seat
-	// var mid = c.Param("mId")
-	// var thid = c.Param("thId")
-	// var seatBooked =c.Param("seatSelected")
 	if err := c.ShouldBindJSON(&seat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	_, err1 := db.Query("insert into seats values ($1,$2,$3,$4)", seat.MovieID, seat.TheatreID, seat.SeatNum, seat.TimeId) //update query
+	_, err1 := db.Query("insert into seats values ($1,$2,$3,$4)", seat.MovieID, seat.TheatreId, seat.SeatNum, seat.Time) //insert query
 
 	checkErr(err1)
-
 	seats = append(seats, seat)
-
 	//c.JSON(http.StatusCreated, seat)
-	c.JSON(http.StatusOK, seats)
+	c.IndentedJSON(http.StatusOK, seats)
 
 }
 
+func getSeats(c *gin.Context) {
+	db := setupDB()
+	movie_id := c.Param("mid")
+	theatre_name := c.Param("thname")
+	timeShow := c.Param("time")
+	var seats []Seat
+	rows, err := db.Query(`select seatnum from "seats" where mid=$1 and thname=$2 and time=$3`, movie_id, theatre_name, timeShow)
+	checkErr(err)
+	for rows.Next() {
+		var selectedSeats string
+		err = rows.Scan(&selectedSeats)
+		checkErr(err)
+		seats = append(seats, Seat{SeatNum: selectedSeats})
+	}
+	fmt.Println(seats)
+	c.IndentedJSON(http.StatusOK, seats)
+}
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
@@ -212,6 +218,7 @@ func main() {
 	router.GET("/theatres", GetTheatre)
 	router.GET("/toms/:movieName", GetTheatreOfMovies)
 	router.POST("/seats", PostSeat)
+	router.GET("/seats/:mid/:thname/:time", getSeats)
 	router.Run("localhost:9090")
 
 	// router := mux.NewRouter()

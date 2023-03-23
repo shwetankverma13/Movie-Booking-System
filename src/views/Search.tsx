@@ -1,20 +1,8 @@
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import {Searchbar} from 'react-native-paper';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Dropdown} from 'react-native-element-dropdown';
-import lsMovies from './SearchMovie';
 export default function Search() {
   const [searchQuery, setSearchQuery] = React.useState('');
-  const Stack = createStackNavigator();
 
   const onChangeSearch = (query: React.SetStateAction<string>) =>
     setSearchQuery(query);

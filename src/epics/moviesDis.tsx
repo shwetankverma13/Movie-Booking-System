@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {fetchMovies} from '../redux/action/fetchMovies';
 
 function MoviesEpic() {
@@ -10,12 +10,8 @@ function MoviesEpic() {
     axios
       .get('http://localhost:9090/movies')
       .then(function (response) {
-        //changear(JSON.stringify(response.data));
         response.data.map((x: any) => {
-          // console.log(x);
-          // console.log('next');
           dispatch(fetchMovies(x));
-          //  console.log(fetchMovies);
         });
       })
       .catch(function (error) {

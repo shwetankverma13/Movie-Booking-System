@@ -6,7 +6,6 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {StyleSheet} from 'react-native';
 

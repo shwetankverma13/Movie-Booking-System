@@ -1,41 +1,12 @@
-import React, {FC, useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  Touchable,
-  TouchableOpacity,
-  TextInput,
-  ImageBackground,
-} from 'react-native';
-import {Image} from 'react-native';
-import {SelectList} from 'react-native-dropdown-select-list';
+import React, {FC} from 'react';
+import {StyleSheet, View, TouchableOpacity, TextInput} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Dropdown} from 'react-native-element-dropdown';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SelectDropdown from 'react-native-select-dropdown';
 
 const MP_head: FC = () => {
   //View to set in Header
-  const [selected, setSelected] = React.useState('');
 
-  const [dropdown, setDropdown] = useState(null);
-  const data = [
-    {key: '1', value: 'Bangalore'},
-    {key: '2', value: 'Hyderabad'},
-    {key: '3', value: 'Chennai'},
-    {key: '4', value: 'Mumbai'},
-    {key: '5', value: 'Kolkata'},
-    {key: '6', value: 'Delhi'},
-    {key: '7', value: 'Pune'},
-    {key: '8', value: 'Lucknow'},
-    {key: '9', value: 'Patna'},
-    {key: '10', value: 'Ranchi'},
-    {key: '11', value: 'Jaipur'},
-    {key: '12', value: 'Surat'},
-  ];
   const cities = [
     'Bangalore',
     'Hyderabad',

@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   FlatList,
-  ScrollView,
   TouchableOpacity,
-  Image,
   ImageBackground,
   Alert,
-  ToastAndroid,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import modalSeats from '../components/modalSeats';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBookingStatus} from '../redux/action/setBookingStatus';
@@ -26,6 +22,8 @@ import {fetchDate, fetchDateSuccess} from '../redux/action/fetchDate';
 import {setDateIndex} from '../redux/action/setDateIndex';
 import tomEpic from '../epics/tomDis';
 import axios from 'axios';
+import seatsEpic from '../epics/getSeats';
+import {setSelectedSeats} from '../redux/action/setSelectedSeats';
 
 export default function ShowLandingPage(props: any) {
   //console.log(props);
@@ -48,7 +46,6 @@ export default function ShowLandingPage(props: any) {
 
   const arr = useSelector((store: any) => store.ChangeSeatId);
   let activeSeatId = arr.clickSeat;
-  const costID = useSelector((store: any) => store.ChangeTotalCost.costID);
   const movieStatus = useSelector(
     (store: any) => store.ChangeBookingStatus.isBookingSuccess,
   );
@@ -62,6 +59,9 @@ export default function ShowLandingPage(props: any) {
     (store: any) => store.ChangeTheatreOfMovieData,
   ).tomData;
   //console.log(tomData);
+  const seat_booked = useSelector(
+    (store: any) => store.ChangeBookedSeat,
+  ).booked;
 
   const dateOnClick = (index: number) => {
     dispatch(fetchDate(index));
@@ -70,29 +70,68 @@ export default function ShowLandingPage(props: any) {
     // console.log(langId);
     // console.log(lang);
   };
-  const showTime = (arr: any, tName: any) => {
-    if (arr.theatreName === tName) {
-      return arr.time;
-    }
-  };
   const handleSeatChange = (row: number, col: number) => {
-    if (activeSeatId[row][col]) activeSeatId[row][col] = false;
-    else activeSeatId[row][col] = true;
+    if (activeSeatId[row][col] === -1) {
+      Alert.alert('Seat already booked');
+    } else if (activeSeatId[row][col] === 1) activeSeatId[row][col] = 0;
+    else activeSeatId[row][col] = 1;
     dispatch(setSeats(activeSeatId));
     console.log(activeSeatId[row][col], row, col);
+    calCost();
+  };
+  const calCost = () => {
     let count: number = 0;
 
     for (let i: number = 0; i < 11; i++) {
       for (let j: number = 0; j < 13; j++) {
-        if (activeSeatId[i][j]) {
+        if (activeSeatId[i][j] === 1) {
           count += 1;
         }
       }
     }
     count = count * 300;
-    dispatch(setCost(count));
-    console.log(count);
+
+    console.log('count', count);
     console.log('detail', movieId);
+    return count;
+  };
+  const handleSeat = () => {
+    let seat = '';
+    for (let i = 0; i < 11; i++) {
+      for (let j = 0; j < 13; j++) {
+        if (activeSeatId[i][j] === 1) {
+          if (j < 7) {
+            seat += String.fromCharCode(65 + i) + '' + (j + 1) + ', ';
+          } else {
+            seat += String.fromCharCode(65 + i) + '' + j + ', ';
+          }
+        }
+      }
+    }
+
+    console.log(seat);
+    console.log('movieId', movieId);
+    seat = seat.substring(0, seat.length - 2);
+    console.log(varTimeId);
+    //console.log(movData[movieId].id);
+    return seat;
+  };
+
+  // was fetching earlier the theatreName but needed to post the theatreId. Thats why made one iteration.
+  const getTheatreId = (nam: any) => {
+    for (let i = 0; i < movTheatre.length; i++) {
+      // console.log(movTheatre[i].id);
+      if (movTheatre[i].title + ', ' + movTheatre[i].location === nam) {
+        console.log(movTheatre[i].id);
+        return movTheatre[i].id;
+      }
+    }
+  };
+  const getTimeId = (tim: any) => {
+    if (tim === '2:00 PM') return '1';
+    if (tim === '5:30 PM') return '2';
+    if (tim === '7:00 PM') return '3';
+    if (tim === '9:30 PM') return '4';
   };
 
   let nameTitle: string;
@@ -120,7 +159,9 @@ export default function ShowLandingPage(props: any) {
                   borderRadius: 4,
                   borderColor: '#D7DCE0',
                 },
-                activeSeatId[rID][cID]
+                activeSeatId[rID][cID] === -1
+                  ? {backgroundColor: 'grey', borderColor: '#D7DCE0'}
+                  : activeSeatId[rID][cID] === 1
                   ? {backgroundColor: '#EBF7F1', borderColor: '#3BB273'}
                   : {backgroundColor: '#F7F9FA', borderColor: '#D7DCE0'},
               ]}
@@ -189,11 +230,6 @@ export default function ShowLandingPage(props: any) {
           justifyContent: 'center',
           alignContent: 'center',
         }}>
-        {/* <Text style={styles.date}> 04 Feb</Text>
-        <Text style={styles.date}> 05 Feb</Text>
-        <Text style={styles.date}> 06 Feb</Text>
-        <Text style={styles.date}> 07 Feb</Text>
-        <Text style={styles.date}> 08 Feb</Text> */}
         <FlatList
           data={dayDate}
           showsHorizontalScrollIndicator={false}
@@ -245,13 +281,7 @@ export default function ShowLandingPage(props: any) {
           )}
         />
       </View>
-      {/* <View style={{flexDirection: 'row', marginLeft: 12, marginTop: 4}}>
-        <Text style={styles.date}> TODAY</Text>
-        <Text style={styles.date}> TOMO</Text>
-        <Text style={styles.date3}> MON</Text>
-        <Text style={styles.date4}> TUE</Text>
-        <Text style={styles.date5}> WED</Text>
-      </View> */}
+
       <View
         style={{
           borderBottomColor: 'black',
@@ -299,10 +329,20 @@ export default function ShowLandingPage(props: any) {
                         }}>
                         <TouchableOpacity
                           onPress={() => {
-                            SetVisible(true);
-                            //  dispatch(setVarId(parseInt(alpha.item.id) - 1));
                             dispatch(setVarId(alpha.item.theatreName));
+                            console.log(varId);
                             dispatch(setVarTimeId(item));
+                            let tidd = getTheatreId(alpha.item.theatreName);
+                            let tiii = getTimeId(item);
+
+                            seatsEpic(
+                              movDatas[movieId].id,
+                              tidd,
+                              tiii,
+                              dispatch,
+                              activeSeatId,
+                            );
+                            SetVisible(true);
                           }}>
                           <Text
                             style={{
@@ -396,12 +436,20 @@ export default function ShowLandingPage(props: any) {
             <View style={{marginLeft: 5, marginTop: 40}}>{row}</View>
             <TouchableOpacity
               onPress={() => {
-                if (costID === 0) {
+                if (calCost() === 0) {
                   Alert.alert('Please Select a Seat to proceed further');
                 } else {
                   dispatch(setBookingStatus(true));
-
+                  // console.log(varTimeId);
+                  axios.post('http://localhost:9090/seats/', {
+                    movieId: movDatas[movieId].id,
+                    theatreId: getTheatreId(varId),
+                    seatNum: handleSeat(),
+                    time: getTimeId(varTimeId),
+                  });
                   console.log(movieStatus);
+                  dispatch(setCost(calCost()));
+                  dispatch(setSelectedSeats(handleSeat()));
                   props.navigation.navigate('Book_ticket');
                   SetVisible(!visible);
                 }
@@ -425,7 +473,7 @@ export default function ShowLandingPage(props: any) {
                   textTransform: 'capitalize',
                   fontWeight: '600',
                 }}>
-                BOOK ₹ {costID}
+                BOOK ₹ {calCost()}
               </Text>
             </TouchableOpacity>
           </View>

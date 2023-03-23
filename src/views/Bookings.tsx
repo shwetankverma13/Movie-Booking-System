@@ -1,24 +1,15 @@
-import axios from 'axios';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Image} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 
-import {useSelector, useDispatch} from 'react-redux';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import {useSelector} from 'react-redux';
 
 export default function Bookings(props: any) {
   const movData = useSelector((store: any) => store.ChangeMovieData).MovieData;
-  const movTheatre = useSelector(
-    (store: any) => store.ChangeTheatreData,
-  ).TheatreData;
-  const varId = useSelector((store: any) => store.ChangeVaribleId.varId);
   const varTimeId = useSelector(
     (store: any) => store.ChangeVaribleTimeId.varTimeId,
   );
-  const acc = useSelector((store: any) => store.ChangeSeatId);
-  let activeSeatId = acc.clickSeat;
   const costID = useSelector((store: any) => store.ChangeTotalCost.costID);
   const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
   const status = useSelector(
@@ -26,33 +17,12 @@ export default function Bookings(props: any) {
   );
   const dayDate = useSelector((store: any) => store.ChangeDayDate);
   const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
+  const seatFinal = useSelector(
+    (store: any) => store.ChangeSeatSelected,
+  ).selectedSeats;
   //console.log(movData);
-  const handleSeat = () => {
-    let seat = '';
-    for (let i = 0; i < 11; i++) {
-      for (let j = 0; j < 13; j++) {
-        if (activeSeatId[i][j]) {
-          if (j < 7) {
-            seat += String.fromCharCode(65 + i) + '' + (j + 1) + ' ';
-          } else {
-            seat += String.fromCharCode(65 + i) + '' + j + ' ';
-          }
-        }
-      }
-    }
-    console.log(seat);
-    console.log('movieId', movieId);
-    return seat;
-  };
-  axios.post('http://localhost:9090/seats/', {
-    // ticket_id: theatredata.mid + ', ' + thid + ', ' + tid + ', ' + handleSeat(),
-    // mid: movData[movieId].mid,
-    // thid: thid,
-    // tid: tid,
-    // seat: handleSeat(),
-  });
   console.log('bookingStatus', status);
-  if (status == true) {
+  if (status === true) {
     return (
       <View style={{flex: 1}}>
         <View>
@@ -191,13 +161,13 @@ export default function Bookings(props: any) {
           </Text>
           <Text
             style={{
-              marginRight: 12,
+              marginRight: 16,
               fontSize: 12,
               fontWeight: '400',
               marginTop: 16,
               color: '#706E6B',
             }}>
-            {handleSeat()}
+            {seatFinal}
           </Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

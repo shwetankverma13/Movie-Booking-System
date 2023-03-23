@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {combineReducers, createStore} from 'redux';
 import {ChangeBookingStatus} from './redux/reducer/ChangeBookingStatus';
 import {ChangeDayDate} from './redux/reducer/ChangeDateDay';
 import {ChangeDateIndex} from './redux/reducer/ChangeDateIndex';
@@ -6,7 +6,9 @@ import {ChangeLangIndex} from './redux/reducer/ChangeLangIndex';
 import {changeLanguage} from './redux/reducer/changeLanguage';
 import {ChangeMovieData} from './redux/reducer/ChangeMovieData';
 import {ChangeMovieId} from './redux/reducer/ChangeMovieId';
+import {ChangeBookedSeat} from './redux/reducer/ChangeSeatFromDB';
 import {ChangeSeatId} from './redux/reducer/ChangeSeatId';
+import {ChangeSeatSelected} from './redux/reducer/ChangeSeatSelected';
 import {ChangeTheatreData} from './redux/reducer/ChangeTheatreData';
 import {ChangeTheatreOfMovieData} from './redux/reducer/ChangeTheatreOfMovies';
 import {ChangeTotalCost} from './redux/reducer/ChangeTotalCost';
@@ -30,5 +32,7 @@ const rootReducer = combineReducers({
   ChangeDayDate,
   ChangeDateIndex,
   ChangeTheatreOfMovieData,
+  ChangeBookedSeat,
+  ChangeSeatSelected,
 });
 export const store = createStore(rootReducer);

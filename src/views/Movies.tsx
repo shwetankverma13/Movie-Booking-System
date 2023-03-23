@@ -18,8 +18,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {setMovieId} from '../redux/action/setMovieId';
 import {setLangIndex} from '../redux/action/setLangIndex';
 import {setLanguage} from '../redux/action/setLanguage';
-import tomEpic from '../epics/tomDis';
-const Stack = createNativeStackNavigator();
 export default function Movies(props: any) {
   const pressHandler = (name: string) => {};
 
@@ -29,7 +27,6 @@ export default function Movies(props: any) {
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
   ).TheatreData;
-  var [isPress, setIsPress] = React.useState(false);
 
   // array of language selection
   const lang = useSelector((store: any) => store.changeLanguage);
@@ -37,7 +34,6 @@ export default function Movies(props: any) {
   //dispatch(setVarId.setVarId(5));
 
   const langId = useSelector((store: any) => store.ChangeLangIndex).langIndex;
-  const movieId = useSelector((store: any) => store.ChangeMovieId).movieId;
   //console.log(movieId);
   const langOnClick = (index: number) => {
     dispatch(setLanguage(index));
