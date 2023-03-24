@@ -54,7 +54,7 @@ export default function ShowLandingPage(props: any) {
   const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
   // console.log(dateId);
   //console.log(movDatas[movieId].title);
-  tomEpic(movDatas[movieId].title);
+  tomEpic(movDatas[movieId].title, dispatch);
   const tomData = useSelector(
     (store: any) => store.ChangeTheatreOfMovieData,
   ).tomData;

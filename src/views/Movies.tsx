@@ -66,7 +66,10 @@ export default function Movies(props: any) {
       />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={styles.tm}>Movies</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            this.flatListRef.scrollToIndex({animated: true, index: 2});
+          }}>
           <AntDesign
             name="arrowright"
             size={20}
@@ -76,6 +79,7 @@ export default function Movies(props: any) {
       </View>
 
       <FlatList
+        ref={ref => (this.flatListRef = ref)}
         showsHorizontalScrollIndicator={false}
         horizontal
         data={movDatas.filter(
