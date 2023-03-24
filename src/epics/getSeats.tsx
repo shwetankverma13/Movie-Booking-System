@@ -9,6 +9,7 @@ function seatsEpic(
   dispatch: any,
   activeSeatId: any,
 ) {
+  console.log(activeSeatId);
   activeSeatId = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

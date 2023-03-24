@@ -20,7 +20,7 @@ import {setVarTimeId} from '../redux/action/setVarTimeId';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {fetchDate, fetchDateSuccess} from '../redux/action/fetchDate';
 import {setDateIndex} from '../redux/action/setDateIndex';
-import tomEpic from '../epics/tomDis';
+import TomEpic from '../epics/tomDis';
 import axios from 'axios';
 import seatsEpic from '../epics/getSeats';
 import {setSelectedSeats} from '../redux/action/setSelectedSeats';
@@ -54,7 +54,7 @@ export default function ShowLandingPage(props: any) {
   const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
   // console.log(dateId);
   //console.log(movDatas[movieId].title);
-  tomEpic(movDatas[movieId].title, dispatch);
+  TomEpic(movDatas[movieId].title, dispatch);
   const tomData = useSelector(
     (store: any) => store.ChangeTheatreOfMovieData,
   ).tomData;
@@ -147,7 +147,9 @@ export default function ShowLandingPage(props: any) {
 
       if (j != 6) {
         col.push(
-          <TouchableOpacity onPress={() => handleSeatChange(rID, cID)}>
+          <TouchableOpacity
+            key={i + ' ' + j}
+            onPress={() => handleSeatChange(rID, cID)}>
             <View
               style={[
                 {
@@ -170,7 +172,7 @@ export default function ShowLandingPage(props: any) {
         );
       } else {
         col.push(
-          <TouchableOpacity>
+          <TouchableOpacity key={i + ' ' + j}>
             <View
               style={{
                 width: 10,
@@ -182,7 +184,11 @@ export default function ShowLandingPage(props: any) {
         );
       }
     }
-    row.push(<View style={{flexDirection: 'row'}}>{col}</View>);
+    row.push(
+      <View key={i + ' '} style={{flexDirection: 'row'}}>
+        {col}
+      </View>,
+    );
   }
 
   return (

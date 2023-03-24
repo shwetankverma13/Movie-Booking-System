@@ -2,5 +2,5 @@ projectKey=movie-booking-system
 serverUrl=http://localhost:9000
 serverVersion=9.9.0.65466
 dashboardUrl=http://localhost:9000/dashboard?id=movie-booking-system
-ceTaskId=AYcM4uVs-XmgHEcSdAZ0
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYcM4uVs-XmgHEcSdAZ0
+ceTaskId=AYcSvn53-XmgHEcSdAZ4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYcSvn53-XmgHEcSdAZ4

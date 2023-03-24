@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import MP_head from '../components/Header';
 import {langs} from '../components/ListLanguage';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
 import MoviesEpic from '../epics/moviesDis';
 import TheatreEpic from '../epics/theatreDis';
