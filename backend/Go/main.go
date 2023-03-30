@@ -1,12 +1,17 @@
 package main
 
 import (
-	"database/sql"
+	"backend/Go/database"
+	grpcapi "backend/Go/grpc_api"
+	"backend/Go/pb"
 	"fmt"
+	"net"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 // the tag is json:"id", which indicates that the field should be marshaled to and unmarshaled from JSON using the key "id".
@@ -47,24 +52,24 @@ type Seat struct {
 	Time      string `json:"time"`
 }
 
-const (
-	DB_USER     = "ShwetankVerma"
-	DB_PASSWORD = "1234"
-	DB_NAME     = "test"
-)
+// const (
+// 	DB_USER     = "ShwetankVerma"
+// 	DB_PASSWORD = "1234"
+// 	DB_NAME     = "test"
+// )
 
-// DB set up
-func setupDB() *sql.DB {
-	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", DB_USER, DB_PASSWORD, DB_NAME)
-	db, err := sql.Open("postgres", dbinfo)
+// // DB set up
+// func setupDB() *sql.DB {
+// 	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", DB_USER, DB_PASSWORD, DB_NAME)
+// 	db, err := sql.Open("postgres", dbinfo)
 
-	checkErr(err)
+// 	checkErr(err)
 
-	return db
-}
+// 	return db
+// }
 
 func GetMovies(c *gin.Context) {
-	db := setupDB()
+	db := database.SetupDB()
 
 	printMessage("Getting movies...")
 
@@ -102,7 +107,7 @@ func GetMovies(c *gin.Context) {
 }
 
 func GetTheatre(c *gin.Context) {
-	db := setupDB()
+	db := database.SetupDB()
 
 	printMessage("Getting Theatres...")
 
@@ -139,7 +144,7 @@ func GetTheatre(c *gin.Context) {
 
 // for the movie detail page we need only the movie name,theatre name, location and the time . Hence I connected all the table and fetched these values from theatre movie time and bookings table.
 func GetTheatreOfMovies(c *gin.Context) {
-	db := setupDB()
+	db := database.SetupDB()
 	movies_name := c.Param("movieName")
 	fmt.Println(movies_name)
 	rows, err := db.Query(`select DISTINCT th.title,th.location, t.time,m.title from "Booking" b,"Movies" m,"Theatre" th, "Timings" t where b.mid=m.mid and b.thid=th.thid and b.tid=t.tid and m.title=$1`, movies_name)
@@ -167,7 +172,7 @@ func GetTheatreOfMovies(c *gin.Context) {
 }
 
 func PostSeat(c *gin.Context) {
-	db := setupDB()
+	db := database.SetupDB()
 	var seats []Seat
 	var seat Seat
 	if err := c.ShouldBindJSON(&seat); err != nil {
@@ -184,7 +189,7 @@ func PostSeat(c *gin.Context) {
 }
 
 func getSeats(c *gin.Context) {
-	db := setupDB()
+	db := database.SetupDB()
 	movie_id := c.Param("mid")
 	theatre_name := c.Param("thname")
 	timeShow := c.Param("time")
@@ -212,17 +217,21 @@ func printMessage(message string) {
 }
 
 func main() {
-
-	router := gin.Default()
-	router.GET("/movies", GetMovies)
-	router.GET("/theatres", GetTheatre)
-	router.GET("/toms/:movieName", GetTheatreOfMovies)
-	router.POST("/seats", PostSeat)
-	router.GET("/seats/:mid/:thname/:time", getSeats)
-	router.Run("localhost:9090")
-
-	// router := mux.NewRouter()
-	// router.HandleFunc("/movies", GetMovies).Methods("GET")
-	// fmt.Println("Server at 9090")
-	// log.Fatal(http.ListenAndServe(":9090", router))
+	// router := gin.Default()
+	// router.GET("/movies", GetMovies)
+	// router.GET("/theatres", GetTheatre)
+	// router.GET("/toms/:movieName", GetTheatreOfMovies)
+	// router.POST("/seats", PostSeat)
+	// router.GET("/seats/:mid/:thname/:time", getSeats)
+	// router.Run("localhost:9090")
+	// db := database.SetupDB()
+	lis, _ := net.Listen("tcp", "localhost:50051")
+	grpcServer := grpc.NewServer()
+	service := &grpcapi.Service{}
+	pb.RegisterPostSeatsServer(grpcServer, service)
+	reflection.Register(grpcServer)
+	err := grpcServer.Serve(lis)
+	if err != nil {
+		fmt.Println("error ", err)
+	}
 }

@@ -18,7 +18,7 @@ import {setSeats} from '../redux/action/setSeats';
 import {setVarId} from '../redux/action/setVarId';
 import {setVarTimeId} from '../redux/action/setVarTimeId';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {fetchDate, fetchDateSuccess} from '../redux/action/fetchDate';
+import {fetchDate} from '../redux/action/fetchDate';
 import {setDateIndex} from '../redux/action/setDateIndex';
 import TomEpic from '../epics/tomDis';
 import axios from 'axios';
@@ -26,16 +26,21 @@ import seatsEpic from '../epics/getSeats';
 import {setSelectedSeats} from '../redux/action/setSelectedSeats';
 
 export default function ShowLandingPage(props: any) {
-  //console.log(props);
+  //fetching movies data
   const movDatas = useSelector((store: any) => store.ChangeMovieData).MovieData;
+  // just to remove the complexity of typing
   const loc = props.route.params.item;
+  //fetching theatres data
   const movTheatre = useSelector(
     (store: any) => store.ChangeTheatreData,
   ).TheatreData;
+  //fetching the theatre name+location
   const varId = useSelector((store: any) => store.ChangeVaribleId.varId);
+  //fetching the time
   const varTimeId = useSelector(
     (store: any) => store.ChangeVaribleTimeId.varTimeId,
   );
+  //fetching the movie index
   const movieId = useSelector((store: any) => store.ChangeMovieId.movieId);
   const dispatch = useDispatch();
   const [visible, SetVisible] = useState(false);
@@ -44,32 +49,34 @@ export default function ShowLandingPage(props: any) {
     SetVisible(!visible);
   };
 
+  // seat array
   const arr = useSelector((store: any) => store.ChangeSeatId);
   let activeSeatId = arr.clickSeat;
   const movieStatus = useSelector(
     (store: any) => store.ChangeBookingStatus.isBookingSuccess,
   );
+
+  // fetching the date
   const dayDate = useSelector((store: any) => store.ChangeDayDate);
-  // console.log('kjhjk', dayDate);
+  // fetching the day like today tommorow
   const dateId = useSelector((store: any) => store.ChangeDateIndex).dateIndex;
-  // console.log(dateId);
-  //console.log(movDatas[movieId].title);
+
+  // fetching the theatreName+location array, time array based on the movie cliked
   TomEpic(movDatas[movieId].title, dispatch);
   const tomData = useSelector(
     (store: any) => store.ChangeTheatreOfMovieData,
   ).tomData;
-  //console.log(tomData);
   const seat_booked = useSelector(
     (store: any) => store.ChangeBookedSeat,
   ).booked;
 
+  // storing the date
   const dateOnClick = (index: number) => {
     dispatch(fetchDate(index));
     dispatch(setDateIndex(index));
     console.log(dayDate[dateId].date);
-    // console.log(langId);
-    // console.log(lang);
   };
+  // seat selection logic set true as false and vice versa
   const handleSeatChange = (row: number, col: number) => {
     if (activeSeatId[row][col] === -1) {
       Alert.alert('Seat already booked');
@@ -79,6 +86,8 @@ export default function ShowLandingPage(props: any) {
     console.log(activeSeatId[row][col], row, col);
     calCost();
   };
+
+  // total seat selected *300
   const calCost = () => {
     let count: number = 0;
 
@@ -95,6 +104,8 @@ export default function ShowLandingPage(props: any) {
     console.log('detail', movieId);
     return count;
   };
+
+  //converting the row,col to (65+row) and col+1
   const handleSeat = () => {
     let seat = '';
     for (let i = 0; i < 11; i++) {
@@ -113,14 +124,12 @@ export default function ShowLandingPage(props: any) {
     console.log('movieId', movieId);
     seat = seat.substring(0, seat.length - 2);
     console.log(varTimeId);
-    //console.log(movData[movieId].id);
     return seat;
   };
 
   // was fetching earlier the theatreName but needed to post the theatreId. Thats why made one iteration.
   const getTheatreId = (nam: any) => {
     for (let i = 0; i < movTheatre.length; i++) {
-      // console.log(movTheatre[i].id);
       if (movTheatre[i].title + ', ' + movTheatre[i].location === nam) {
         console.log(movTheatre[i].id);
         return movTheatre[i].id;
@@ -133,6 +142,8 @@ export default function ShowLandingPage(props: any) {
     if (tim === '7:00 PM') return '3';
     if (tim === '9:30 PM') return '4';
   };
+
+  // now we need the seat array in the modal display
 
   let nameTitle: string;
   nameTitle = '';
@@ -193,14 +204,12 @@ export default function ShowLandingPage(props: any) {
 
   return (
     <View style={{flex: 1}}>
-      {/* <Image source={{uri: movDatas[movieId].image}} style={styles.image} /> */}
       <ImageBackground
         source={{uri: movDatas[movieId].image}}
         style={styles.image}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.goBack();
-            //console.log(props.navigation.goBack());
           }}>
           <AntDesign
             name="arrowleft"
@@ -303,7 +312,6 @@ export default function ShowLandingPage(props: any) {
             return index.toString();
           }}
           renderItem={alpha => (
-            // arr.push({title:item.title});
             <View>
               <View>
                 <Text
@@ -446,7 +454,7 @@ export default function ShowLandingPage(props: any) {
                   Alert.alert('Please Select a Seat to proceed further');
                 } else {
                   dispatch(setBookingStatus(true));
-                  // console.log(varTimeId);
+
                   axios.post('http://localhost:9090/seats/', {
                     movieId: movDatas[movieId].id,
                     theatreId: getTheatreId(varId),

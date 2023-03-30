@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {useEffect} from 'react';
 import {Alert} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {fetchTOM} from '../redux/action/fetchTOM';
 
 function TomEpic(movie_name: any, dispatch: any) {

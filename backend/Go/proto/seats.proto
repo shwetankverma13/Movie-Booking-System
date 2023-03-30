@@ -1,0 +1,20 @@
+syntax="proto3";
+
+package pb;
+
+
+option go_package="./Go";
+
+service PostSeats{
+    rpc PostSeats (SeatRequest) returns (SeatResponse){}
+}
+message SeatRequest{
+    string Mid= 1;
+    string Thid=2;
+    string Seat=3;
+    string Time=4;
+}
+
+message SeatResponse{
+  string Status=1;
+}
